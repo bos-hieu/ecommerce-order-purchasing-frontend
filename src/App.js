@@ -1,11 +1,13 @@
 import "./App.css"
 import {useState, useEffect} from "react";
 import Web3 from "web3";
-import ContractArtifact from "./HelloWorld.json";
+import ContractArtifact from "./contracts/EcommerceOrderPurchasing.json";
+import Product from "./components/Product.js";
 
 function App() {
     const [msg, setMsg] = useState("");
     const [myAccount, setMyAccount] = useState("");
+    const [products, setProducts] = useState([]);
 
     const checkWallet = async () => {
         // check if MetaMask is installed in the browser
@@ -34,17 +36,22 @@ function App() {
 
             // Get the deployed contract as an object
             const HelloContract = new web3.eth.Contract(contractABI, contractAddress);
+            console.log(HelloContract);
+            console.log("Account: ", account[0]);
+            console.log("Contract Address: ", contractAddress);
 
-            // Send a transaction
-            try {
-                await HelloContract.methods.setMessage("Hello Blockchain again").send({from: account[0]});
-            } catch (error) {
-                alert(error);
-            }
+            // // Send a transaction
+            // try {
+            //     await HelloContract.methods.setMessage("Hello Blockchain again").send({from: account[0]});
+            // } catch (error) {
+            //     alert(error);
+            // }
 
             // Return(call) the getHello function of the contract
-            const theResponse = await HelloContract.methods.getMessage().call();
-            setMsg(theResponse);
+            const products = await HelloContract.methods.getProducts().call();
+            console.log(products);
+            setMsg(products);
+            setProducts(products);
         } else {
             // if no wallet
             alert("Get MetaMask to connect");
@@ -61,7 +68,14 @@ function App() {
                 {/* If the Wallet is connected to an Account returns the message. Else show connect button*/}
                 {
                     myAccount ? (
-                        msg
+                        <div>
+                            <p>{msg}</p>
+                            <div>
+                                {products.map((product) => (
+                                    <Product product={product} key={product.id} />
+                                ))}
+                            </div>
+                        </div>
                     ) : (
                         <button onClick={readSmartContract}>Connect</button>
                     )
