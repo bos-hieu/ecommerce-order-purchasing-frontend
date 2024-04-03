@@ -1,5 +1,5 @@
-export default function Product({ product }) {
-    const { id, name, description, price, image } = product
+export default function Product({product, placeOrder}) {
+    const {id, name, description, price, image} = product
     const ethDecimal = 1e18;
     const priceDisplay = price / ethDecimal;
     // change "image 1" to image_1
@@ -23,6 +23,12 @@ export default function Product({ product }) {
                 <div className="font-bold text-xl mb-2">{name}</div>
                 <p className="text-gray-700 text-base">{description}</p>
                 <p className="text-gray-900 text-xl">{priceDisplay} ETH</p>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => placeOrder(id, price)}
+                >
+                    Place Order
+                </button>
             </div>
             <div className="px-6 pt-4 pb-2">
             </div>

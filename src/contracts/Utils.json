@@ -1,145 +1,14 @@
 {
-  "contractName": "EcommerceOrderPurchasingAbstract",
-  "abi": [
-    {
-      "inputs": [],
-      "name": "getProducts",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "string",
-              "name": "id",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "name",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "description",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "image",
-              "type": "string"
-            },
-            {
-              "internalType": "uint256",
-              "name": "price",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct Products.Product[3]",
-          "name": "",
-          "type": "tuple[3]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address payable",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "placeOrder",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "name": "cancelOrder",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "issueRefund",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        },
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address payable",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "setRetailer",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
-  ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"name\":\"cancelOrder\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getProducts\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"id\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"image\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"price\",\"type\":\"uint256\"}],\"internalType\":\"struct Products.Product[3]\",\"name\":\"\",\"type\":\"tuple[3]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"issueRefund\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"address payable\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"placeOrder\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"setRetailer\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/EcommerceOrderPurchasing.sol\":\"EcommerceOrderPurchasingAbstract\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/EcommerceOrderPurchasing.sol\":{\"keccak256\":\"0xc7eb16096050be12f2f13e5f605518915caf6e7eb8bed03ca848a5e3b144a6b7\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://66919465f22a0bfee6412f0cb1ab3a1c31ff645c15f059b746e2366c57d2bb38\",\"dweb:/ipfs/QmQRRqeXbPz8DrhcBDjUvX272j4aauH7c5gdqXuiKZ4FHe\"]}},\"version\":1}",
-  "bytecode": "0x",
-  "deployedBytecode": "0x",
+  "contractName": "Utils",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/EcommerceOrderPurchasing.sol\":\"Utils\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/EcommerceOrderPurchasing.sol\":{\"keccak256\":\"0xc7eb16096050be12f2f13e5f605518915caf6e7eb8bed03ca848a5e3b144a6b7\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://66919465f22a0bfee6412f0cb1ab3a1c31ff645c15f059b746e2366c57d2bb38\",\"dweb:/ipfs/QmQRRqeXbPz8DrhcBDjUvX272j4aauH7c5gdqXuiKZ4FHe\"]}},\"version\":1}",
+  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122050a52fa1810e69e7fab16853f4d3936ea45b0025bfcb7fb40093ead19fe38e8a64736f6c63430008110033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122050a52fa1810e69e7fab16853f4d3936ea45b0025bfcb7fb40093ead19fe38e8a64736f6c63430008110033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
-  "sourceMap": "",
-  "deployedSourceMap": "",
+  "sourceMap": "2073:1600:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "2073:1600:0:-:0;;;;;;;;",
   "source": "/*\n  @class: CCMP 603 - Introduction to Smart Contracts - Assignment 2\n  @title: E-commerce Order Purchasing Smart Contract\n  @member: Le, Trung Hieu\n  @date: March 10, 2024\n  @notice: This contract allows customers to purchase products from a retailer.\n  @dev: The contract is implemented using Solidity version greater than 0.8.13\n\n  This contract is for educational purposes only. It is not intended for use in a production environment.\n  The aim of this contract is to not only complete the assignment but also try to implement as many of Solidity's features as possible, including\n  the use of libraries, interfaces, and abstract contracts.\n  There are some points that should be considered before reviewing the code:\n  - The EcommerceOrderPurchasing is the main contract of the EcommerceOrderPurchasing system.\n  - The EcommerceOrderPurchasingAbstract is an abstract contract that defines the functions of EcommerceOrderPurchasing.\n  - The EcommerceOrderPurchasingImplement is a contract that implements the functions of EcommerceOrderPurchasing.\n  - The Products contract is used to manage the products.\n  - The Orders contract is used to manage the orders.\n  - The library Utils contains utility functions for the EcommerceOrderPurchasing system.\n  - Because there is no double type in Solidity, the uint256 type is used to represent any double type that is defined in Assignment 1.\n  - Because there is no print function in Solidity, all print statements in Assignment 1 are replaced by the return statement.\n  - The number of products is fixed to 3, and the product information is hardcoded in the contract.\n  - The retailer is set by the deployer of the contract.\n\n  I am looking forward to receiving your feedback. Thank you for your time and consideration.\n*/\n// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.13;\n\n// Utils is a library that contains utility functions for the EcommerceOrderPurchasing system\n// The functions include uint8ToString, concatTwoStrings, and compareTwoStrings\n// reference: https://www.geeksforgeeks.org/solidity-libraries/\nlibrary Utils {\n    // uint8ToString is a utility function that converts a uint8 to a string\n    // @param number (uint8) - The number to be converted\n    // @return (string) - The string of the number\n    function uint8ToString(uint8 number) internal pure returns (string memory) {\n        // Convert uint8 to ASCII (single-character string)\n        // In ASCII, the digits 0-9 have the code points 48-57\n        // So, to convert a digit to its ASCII code, we can add 48 to the digit\n        bytes1 b = bytes1(uint8(number) + 48);\n\n        // Convert ASCII to string\n        return string(abi.encodePacked(b));\n    }\n\n    // concatTwoStrings is a utility function that concatenates two strings\n    // @param a (string) - The first string\n    // @param b (string) - The second string\n    // @return (string) - The concatenated string\n    function concatTwoStrings(string memory a, string memory b)\n    internal\n    pure\n    returns (string memory)\n    {\n        return string(abi.encodePacked(a, b));\n    }\n\n    // compareTwoStrings is a utility function that compares two strings\n    // @param a (string) - The first string\n    // @param b (string) - The second string\n    // @return (bool) - The result of the comparison\n    // reference: https://www.educative.io/answers/how-to-compare-two-strings-in-solidity\n    function compareTwoStrings(string memory a, string memory b)\n    internal\n    pure\n    returns (bool)\n    {\n        if (bytes(a).length != bytes(b).length) {\n            return false;\n        }\n        return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));\n    }\n}\n\n// Orders contract is used to manage the orders\ncontract Orders {\n    // _orders is a private mapping that stores the orders\n    mapping(string => Order) private _orders;\n\n    // orderIDSequence is a private variable that stores the sequence of order id\n    uint8 private orderIDSequence = 1;\n\n    // ORDER_ID_PREFIX is a private string constant that represents the prefix of an order id\n    string private constant ORDER_ID_PREFIX = \"order_id_\";\n\n    // OrderStatus is an enum type that represents the status of an order\n    enum OrderStatus {\n        PaymentPending, // default status\n        PaymentFailed, // status when payment failed\n        New, // status when a new order is created\n        Canceled, // status when an order is canceled\n        PartialRefunded // status when an order is partially refunded\n    }\n\n    // Order is a struct type that represents the information of an order\n    struct Order {\n        string id; // order id\n        string productID; // product id\n        uint256 amount; // the amount of the order, in this case, it is the price of the product.\n        address payable customerAddress; // the customer address\n        OrderStatus status; // the status of the order\n        uint256 refundedAmount; // the refunded amount of the order\n    }\n\n    // generateOrderID is a private function that generates an order id\n    // @return (STRING) - The order id\n    function generateOrderID() private returns (string memory) {\n        // Convert orderIDSequence to string\n        string memory orderIDSequenceStr = Utils.uint8ToString(orderIDSequence);\n\n        // Concatenate ORDER_ID_PREFIX and orderIDSequenceStr to create the order id\n        // For example, if orderIDSequence is 1, then the order id will be \"order_id_1\"\n        string memory newOrderID = Utils.concatTwoStrings(\n            ORDER_ID_PREFIX,\n            orderIDSequenceStr\n        );\n\n        // Increment orderIDSequence for the next order\n        orderIDSequence++;\n\n        return newOrderID;\n    }\n\n    // addOrderToOrders is a internal function that adds an order to the _orders\n    // @param order (ORDER) - The order to be added\n    function addOrderToOrders(Order memory order) internal {\n        _orders[order.id] = order;\n    }\n\n    // getOrder is a internal function that gets an order from the _orders\n    function getOrder(string memory orderID)\n    internal\n    view\n    returns (Order memory)\n    {\n        // Get the order from the _orders\n        Order memory order = _orders[orderID];\n\n        // Check if the order is found\n        // The require function is used to check if the condition is true. If the condition is false, then the function\n        // will stop and revert the transaction as well as return the defined error message.\n        // For example, if the order is not found, then the function will stop and return the error message \"Order is not found\"\n        require(bytes(order.id).length > 0, \"Order is not found\");\n\n        return order;\n    }\n\n    // createOrder is a private function that creates an order.\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of the product\n    // @param customerAddress (address) - The customer address\n    // @return (Order) - The order\n    function createOrder(\n        string memory productID,\n        uint256 amount,\n        address payable customerAddress\n    ) internal returns (Order memory) {\n        Order memory order;\n        order.id = generateOrderID();\n        order.productID = productID;\n        order.amount = amount;\n        order.customerAddress = customerAddress;\n        order.status = OrderStatus.PaymentPending;\n        order.refundedAmount = 0;\n        return order;\n    }\n\n    // updateOrderStatus is a private function that updates the status of an order.\n    // @param orderID (string) - The order id\n    // @param newStatus (OrderStatus) - The new status of the order\n    function updateOrderStatus(string memory orderID, OrderStatus newStatus)\n    internal\n    {\n        Order storage order = _orders[orderID];\n\n        // Update the status of the order\n        // The storage keyword is used to store the value in the storage of the contract. Therefore, the value will be\n        // updated in the _orders.\n        order.status = newStatus;\n    }\n}\n\n// Products contract is used to manage the products\ncontract Products {\n    // Product is a struct type that represents the information of a product\n    struct Product {\n        string id; // the id of the product\n        string name; // the name of the product\n        string description; // the description of the product\n        string image; // the image link of the product\n        uint256 price; // the price of the product\n    }\n\n    // listProducts is a private variable that stores the list of products\n    Product[3] internal listProducts;\n\n    constructor() {\n        // Set the list of products\n        setListProducts();\n    }\n\n    // setListProducts is a private function that sets the list of products\n    function setListProducts() private {\n        listProducts[0] = Product(\n            \"product_id_1\", // product id\n            \"Product 1\", // product name\n            \"Description 1\", // product description\n            \"image_1\", // product image\n            1e18 // product price in wei, is equal to 1 ether\n        );\n        listProducts[1] = Product(\n            \"product_id_2\", // product id\n            \"Product 2\", // product name\n            \"Description 2\", // product description\n            \"image_2\", // product image\n            2e18 // product price in wei, is equal to 2 ether\n        );\n        listProducts[2] = Product(\n            \"product_id_3\",\n            \"Product 3\",\n            \"Description 3\",\n            \"image_3\",\n            3e18 // in wei, is equal to 3 ether\n        );\n    }\n\n    // getProductFromListProducts is a private function that gets a product from the list of products\n    // @param productID (string) - The product id\n    // @return (Product) - The product\n    function getProductFromListProducts(string memory productID)\n    internal\n    view\n    returns (Product memory)\n    {\n        for (uint256 i = 0; i < listProducts.length; i++) {\n            // Check if the product id is equal to the productID\n            if (Utils.compareTwoStrings(listProducts[i].id, productID)) {\n                return listProducts[i];\n            }\n        }\n\n        // Return an empty product if the product is not found\n        return Product(\"\", \"\", \"\", \"\", 0);\n    }\n}\n\n// EcommerceOrderPurchasingAbstract is an interface that defines the functions of EcommerceOrderPurchasing\n// It inherits from Products\nabstract contract EcommerceOrderPurchasingAbstract is Products {\n    // getProducts is a function that returns the list of products\n    // @return (Product[3]) - The list of products\n    function getProducts() public view virtual returns (Product[3] memory);\n\n    // placeOrder is a function that is used to place an order\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of order, in this case, it is the price of the product\n    // @param customer (address) - The customer address\n    // @return (string) - The message of the result\n    function placeOrder(\n        string memory,\n        uint256,\n        address payable\n    ) external payable virtual returns (string memory);\n\n    // cancelOrder is a function that is used to cancel an order\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory)\n    public\n    payable\n    virtual\n    returns (string memory);\n\n    // issueRefund is a function that is used to issue a refund\n    // @param orderID (string) - The order id\n    // @param refundAmount (uint256) - The refund amount\n    function issueRefund(string memory, uint256)\n    public\n    payable\n    virtual\n    returns (string memory, bool);\n\n    // setRetailer is a function that is used to set the retailer\n    function setRetailer(address payable) public virtual;\n}\n\n// EcommerceOrderPurchasingImplement is a contract that implements the functions of EcommerceOrderPurchasing\n// It inherits from Products, Orders, and EcommerceOrderPurchasingAbstract\ncontract EcommerceOrderPurchasingImplement is\nProducts,\nOrders,\nEcommerceOrderPurchasingAbstract\n{\n    // retailer is a private variable that stores the retailer address\n    // The retailer is the address that receives the payment from the customer when an order is placed successfully and\n    // issues a refund when an order is canceled or partially refunded.\n    // The retailer is set by the setRetailer function.\n    address payable retailer;\n\n    // setRetailer is an implementation of the setRetailer function of EcommerceOrderPurchasingAbstract\n    // @param initRetailer (address) - The retailer address to be set\n    function setRetailer(address payable initRetailer) public override {\n        retailer = initRetailer;\n    }\n\n    // getProducts is an implementation of the getProducts function of EcommerceOrderPurchasingAbstract\n    // @return (Product[3]) - The list of products\n    function getProducts() public view override returns (Product[3] memory) {\n        return listProducts;\n    }\n\n    // placeOrder is an implementation of the placeOrder function of EcommerceOrderPurchasingAbstract\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of the product\n    // @param customer (address) - The customer address\n    // @return (string) - The message of the result\n    function placeOrder(\n        string memory productID,\n        uint256 amount,\n        address payable customer\n    ) external payable override returns (string memory) {\n        // Step 1: Check if the product is valid.\n        Product memory product = getProductFromListProducts(productID);\n        // If the product.id is equal to \"\", then the product is invalid.\n        if (Utils.compareTwoStrings(product.id, \"\")) {\n            return \"Product is invalid\";\n        }\n\n        // Step 1.1: Check if the amount is equal to the price of the product.\n        // Note: this step is not mentioned in the assignment 1, but I think it is necessary to check if the amount is\n        // equal to the price of the product. Therefore, I added this step to make the code more secure.\n        if (product.price != amount) {\n            return \"Amount is not equal to price of product\";\n        }\n\n        // Step 2: Check if the customer has enough balance.\n        if (customer.balance < amount) {\n            return \"Not enough balance\";\n        }\n\n        // Step 3: Create an order.\n        Order memory order = createOrder(productID, amount, customer);\n        addOrderToOrders(order);\n\n        // Step 4: Issue a transaction from customer to retailer.\n        bool sent = sendEther(retailer, amount);\n        if (!sent) {\n            updateOrderStatus(order.id, OrderStatus.PaymentFailed);\n            return \"Transaction failed\";\n        }\n\n        updateOrderStatus(order.id, OrderStatus.New);\n        return\n            Utils.concatTwoStrings(\n            \"You have successfully purchased an order with id \",\n            order.id\n        );\n    }\n\n    // cancelOrder is an implementation of the cancelOrder function of EcommerceOrderPurchasingAbstract\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory orderID)\n    public\n    payable\n    override\n    returns (string memory)\n    {\n        // Step 1: Get Order info from order id.\n        Order memory order = getOrder(orderID);\n\n        // Step 2: Check if the order is already canceled.\n        if (order.status == OrderStatus.Canceled) {\n            return \"This order is already canceled\";\n        }\n\n        // Step 3: Proceed to cancel the order.\n        bool canCancelOrder = (order.status == OrderStatus.New ||\n            order.status == OrderStatus.PartialRefunded);\n        if (!canCancelOrder) {\n            return \"The order status is invalid\";\n        }\n\n        // Step 3.1: Calculate the refund amount.\n        uint256 refund_amount = order.amount - order.refundedAmount;\n\n        // Step 3.2: Check if the refund amount is 0 then update the order status to canceled.\n        if (refund_amount == 0) {\n            updateOrderStatus(order.id, OrderStatus.Canceled);\n            return \"You successfully canceled your order\";\n        }\n\n        // Step 3.3: Issue a refund and update the order status to canceled.\n        (string memory refundMessage, bool isRefundSuccess) = issueRefund(\n            orderID,\n            refund_amount\n        );\n        if (isRefundSuccess) {\n            updateOrderStatus(order.id, OrderStatus.Canceled);\n            return \"You successfully canceled your order\";\n        }\n        return refundMessage;\n    }\n\n    // issueRefund is an implementation of the issueRefund function of EcommerceOrderPurchasingAbstract\n    // @param orderID (string) - The order id\n    // @param refundAmount (uint256) - The refund amount\n    function issueRefund(string memory orderID, uint256 refundAmount)\n    public\n    payable\n    override\n    returns (string memory, bool)\n    {\n        // Step 1: Get order info from order id.\n        Order memory order = getOrder(orderID);\n\n        // Step 2: Calculate max refund amount.\n        uint256 maxRefundAmount = order.amount - order.refundedAmount;\n\n        // Step 3: Compare max refund amount with refund amount\n        bool isRefundSuccess = false;\n        if (refundAmount > maxRefundAmount) {\n            // convert maxRefundAmount to string\n            string memory maxRefundAmountStr = string(\n                abi.encodePacked(maxRefundAmount)\n            );\n            return (\n                Utils.concatTwoStrings(\n                \"Refund amount is greater than: \",\n                maxRefundAmountStr\n            ),\n                isRefundSuccess\n            );\n        }\n\n        // Step 4: Issue a refund transaction.\n        bool sent = sendEther(order.customerAddress, refundAmount);\n        if (!sent) {\n            return (\"Transaction failed\", isRefundSuccess);\n        }\n\n        isRefundSuccess = true;\n        return (\"You successfully refunded your payment\", isRefundSuccess);\n    }\n\n    // sendEther is a private function that sends ether to an address\n    // @param to (address) - The address to send ether to\n    // @param value (uint256) - The value of ether to send\n    // @return (bool) - The result of the transaction (true or false)\n    function sendEther(address payable to, uint256 value)\n    public\n    payable\n    returns (bool)\n    {\n        (bool sent, ) = to.call{value: value}(\"\");\n        return sent;\n    }\n}\n\n// EcommerceOrderPurchasing is the main contract of the EcommerceOrderPurchasing system.\n// It inherits from Products and Orders.\n// I used the contract EcommerceOrderPurchasingImplement to implement the functions of EcommerceOrderPurchasingAbstract.\n// This helps to separate the interface and the implementation of the EcommerceOrderPurchasing system.\n// Therefore, ensuring the encapsulation of the business logic.\ncontract EcommerceOrderPurchasing is Products, Orders {\n    // EcommerceOrderPurchasing is an instance of EcommerceOrderPurchasingAbstract that is used to call the functions of EcommerceOrderPurchasingImplement\n    EcommerceOrderPurchasingAbstract ecommerceOrderPurchasing =\n    new EcommerceOrderPurchasingImplement();\n\n    event PlaceOrder(string message);\n    event CancelOrder(string message);\n    event IssueRefund(string message);\n\n    constructor() {\n        // Set the retailer from the deployer of the contract\n        ecommerceOrderPurchasing.setRetailer(payable(msg.sender));\n    }\n\n    // getProducts is a public function that returns the list of products\n    // It calls the getProducts function of EcommerceOrderPurchasing\n    // @return (Product[3]) - The list of products\n    function getProducts() public view returns (Product[3] memory) {\n        return ecommerceOrderPurchasing.getProducts();\n    }\n\n    // placeOrder is a public function that is used to place an order\n    // It calls the placeOrder function of EcommerceOrderPurchasing\n    // @param productId (string) - The product id\n    // @return (string) - The message of the result\n    function placeOrder(string memory productId)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the placeOrder function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's retailer.\n        string memory message = ecommerceOrderPurchasing.placeOrder{\n                value: msg.value\n            }(productId, msg.value, payable(msg.sender));\n        emit PlaceOrder(message);\n        return message;\n    }\n\n    // cancelOrder is a public function that is used to cancel an order.\n    // It calls the cancelOrder function of EcommerceOrderPurchasing.\n    // This function should be called by the retailer.\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory orderID)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the cancelOrder function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's customer.\n        string memory message = ecommerceOrderPurchasing.cancelOrder{value: msg.value}(orderID);\n        emit CancelOrder(message);\n        return message;\n    }\n\n    // issueRefund is a public function that is used to issue a refund.\n    // It calls the issueRefund function of EcommerceOrderPurchasing.\n    // This function should be called by the retailer.\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function issueRefund(string memory orderID)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the issueRefund function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's customer.\n        (string memory refundMessage, ) = ecommerceOrderPurchasing.issueRefund{\n                value: msg.value\n            }(orderID, msg.value);\n        emit IssueRefund(refundMessage);\n        return refundMessage;\n    }\n}\n",
   "sourcePath": "/Users/trunghieu/Library/Mobile Documents/com~apple~CloudDocs/data/cloud-computing-and-blockchain/ecommerce-order-purchasing-backend/contracts/EcommerceOrderPurchasing.sol",
   "ast": {
@@ -11246,7 +11115,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-04-03T07:06:11.903Z",
+  "updatedAt": "2024-04-03T07:06:11.956Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

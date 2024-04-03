@@ -8,11 +8,18 @@ function App() {
     const [msg, setMsg] = useState("");
     const [myAccount, setMyAccount] = useState("");
     const [products, setProducts] = useState([]);
+    const [contract, setContract] = useState({});
+    const [currentOrderId, setCurrentOrderId] = useState("");
+    const eventNameByFunction = {
+        placeOrder: "PlaceOrder",
+        cancelOrder: "CancelOrder",
+        issueRefund: "IssueRefund"
+    }
 
     const checkWallet = async () => {
         // check if MetaMask is installed in the browser
         if (window.ethereum) {
-            setMsg("Wallet found");
+            setMsg("Connect to MetaMask. Click getProducts to see the products.");
         } else {
             setMsg("Please Install MetaMask");
         }
@@ -35,27 +42,47 @@ function App() {
             const web3 = new Web3(Web3.givenProvider);
 
             // Get the deployed contract as an object
-            const HelloContract = new web3.eth.Contract(contractABI, contractAddress);
-            console.log(HelloContract);
-            console.log("Account: ", account[0]);
-            console.log("Contract Address: ", contractAddress);
-
-            // // Send a transaction
-            // try {
-            //     await HelloContract.methods.setMessage("Hello Blockchain again").send({from: account[0]});
-            // } catch (error) {
-            //     alert(error);
-            // }
-
-            // Return(call) the getHello function of the contract
-            const products = await HelloContract.methods.getProducts().call();
-            console.log(products);
-            setMsg(products);
-            setProducts(products);
+            const EcommerceOrderPurchasingContract = new web3.eth.Contract(contractABI, contractAddress);
+            setContract(EcommerceOrderPurchasingContract);
         } else {
             // if no wallet
             alert("Get MetaMask to connect");
         }
+    }
+
+    const getProducts = async () => {
+        const products = await contract.methods.getProducts().call();
+        setProducts(products);
+    }
+
+    const placeOrder = async (productId, value) => {
+        // Send a transaction
+        try {
+            const response = await contract.methods.placeOrder(productId).send({from: myAccount, value: value});
+            const message = getReturnMessage(response, eventNameByFunction.placeOrder);
+            alert(message);
+
+            // You have successfully purchased an order with id order_id_6
+            // get the order_id from the message
+            const components = message.split(" ");
+            setCurrentOrderId(components[components.length - 1]);
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    const cancelOrder = async (orderId) => {
+        try {
+            const response = await contract.methods.cancelOrder(orderId).send({from: myAccount});
+            const message = getReturnMessage(response, eventNameByFunction.cancelOrder);
+            alert(message);
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    const getReturnMessage =  (response, eventName) => {
+        return response.events[eventName].returnValues.message;
     }
 
     useEffect(() => {
@@ -70,11 +97,26 @@ function App() {
                     myAccount ? (
                         <div>
                             <p>{msg}</p>
-                            <div>
-                                {products.map((product) => (
-                                    <Product product={product} key={product.id} />
-                                ))}
-                            </div>
+                            {
+                                products.length === 0 ? (
+                                    <button onClick={getProducts}>Get Products</button>
+                                ) : (
+                                    <div>
+                                        {products.map((product) => (
+                                            <Product
+                                                product={product}
+                                                key={product.id}
+                                                placeOrder={placeOrder}
+                                            />
+                                        ))}
+                                    </div>
+                                )
+                            }
+                            {
+                                currentOrderId && (
+                                    <p>You have successfully purchased an order with id {currentOrderId}</p>
+                                )
+                            }
                         </div>
                     ) : (
                         <button onClick={readSmartContract}>Connect</button>
