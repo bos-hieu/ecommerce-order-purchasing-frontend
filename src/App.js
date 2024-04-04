@@ -1,4 +1,4 @@
-import "./App.css"
+import "./styles/App.css"
 import {useState, useEffect} from "react";
 import Web3 from "web3";
 import ContractArtifact from "./contracts/EcommerceOrderPurchasing.json";
