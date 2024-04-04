@@ -1,4 +1,5 @@
 import "./styles/App.css"
+import "./styles/Product.css"
 import {useState, useEffect} from "react";
 import Web3 from "web3";
 import ContractArtifact from "./contracts/EcommerceOrderPurchasing.json";
@@ -101,7 +102,7 @@ function App() {
                                 products.length === 0 ? (
                                     <button onClick={getProducts}>Get Products</button>
                                 ) : (
-                                    <div>
+                                    <div className="ListProducts">
                                         {products.map((product) => (
                                             <Product
                                                 product={product}

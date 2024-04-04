@@ -7,20 +7,18 @@ export default function Product({product, placeOrder}) {
 
     return (
         <div
+            className="Product"
             key={id}
         >
             <img
-                width={250}
-                height={250}
-                // objectFit="cover"
-                // %20 is a space
+                className="Product-image"
                 src={`/images/${beautyImage}.jpg`}
                 alt={name}
             />
-            <div>
-                <div>{name}</div>
-                <p>{description}</p>
-                <p>{priceDisplay} ETH</p>
+            <div className="Product-info">
+                <div className="Product-name">{name}</div>
+                <p className="Product-description">{description}</p>
+                <p className="Product-price">{priceDisplay} ETH</p>
                 <button
                     onClick={() => placeOrder(id, price)}
                 >
