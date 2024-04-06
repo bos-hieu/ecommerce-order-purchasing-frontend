@@ -1,27 +1,27 @@
 {
   "contractName": "Utils",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/EcommerceOrderPurchasing.sol\":\"Utils\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/EcommerceOrderPurchasing.sol\":{\"keccak256\":\"0xc7eb16096050be12f2f13e5f605518915caf6e7eb8bed03ca848a5e3b144a6b7\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://66919465f22a0bfee6412f0cb1ab3a1c31ff645c15f059b746e2366c57d2bb38\",\"dweb:/ipfs/QmQRRqeXbPz8DrhcBDjUvX272j4aauH7c5gdqXuiKZ4FHe\"]}},\"version\":1}",
-  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122050a52fa1810e69e7fab16853f4d3936ea45b0025bfcb7fb40093ead19fe38e8a64736f6c63430008110033",
-  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122050a52fa1810e69e7fab16853f4d3936ea45b0025bfcb7fb40093ead19fe38e8a64736f6c63430008110033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/EcommerceOrderPurchasing.sol\":\"Utils\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/EcommerceOrderPurchasing.sol\":{\"keccak256\":\"0x05f37b87b9595dd6dbeb0ba27055cd51ffb10d9d487bce2f8dedadcabf02bf86\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://2136238c1869c2213edfae91d4b913fe892986ebfcb9931cd19426ed8604fb35\",\"dweb:/ipfs/QmX16PWNPqkpCfgAH5RxBtcfv4qH63FENhhzryA8ToC7ej\"]}},\"version\":1}",
+  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212205e6cc7bbb3823c1201501b2417e4251282b9f3e0b58a7292b176ae3fd6f3026a64736f6c63430008110033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212205e6cc7bbb3823c1201501b2417e4251282b9f3e0b58a7292b176ae3fd6f3026a64736f6c63430008110033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
   "sourceMap": "2073:1600:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "2073:1600:0:-:0;;;;;;;;",
-  "source": "/*\n  @class: CCMP 603 - Introduction to Smart Contracts - Assignment 2\n  @title: E-commerce Order Purchasing Smart Contract\n  @member: Le, Trung Hieu\n  @date: March 10, 2024\n  @notice: This contract allows customers to purchase products from a retailer.\n  @dev: The contract is implemented using Solidity version greater than 0.8.13\n\n  This contract is for educational purposes only. It is not intended for use in a production environment.\n  The aim of this contract is to not only complete the assignment but also try to implement as many of Solidity's features as possible, including\n  the use of libraries, interfaces, and abstract contracts.\n  There are some points that should be considered before reviewing the code:\n  - The EcommerceOrderPurchasing is the main contract of the EcommerceOrderPurchasing system.\n  - The EcommerceOrderPurchasingAbstract is an abstract contract that defines the functions of EcommerceOrderPurchasing.\n  - The EcommerceOrderPurchasingImplement is a contract that implements the functions of EcommerceOrderPurchasing.\n  - The Products contract is used to manage the products.\n  - The Orders contract is used to manage the orders.\n  - The library Utils contains utility functions for the EcommerceOrderPurchasing system.\n  - Because there is no double type in Solidity, the uint256 type is used to represent any double type that is defined in Assignment 1.\n  - Because there is no print function in Solidity, all print statements in Assignment 1 are replaced by the return statement.\n  - The number of products is fixed to 3, and the product information is hardcoded in the contract.\n  - The retailer is set by the deployer of the contract.\n\n  I am looking forward to receiving your feedback. Thank you for your time and consideration.\n*/\n// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.13;\n\n// Utils is a library that contains utility functions for the EcommerceOrderPurchasing system\n// The functions include uint8ToString, concatTwoStrings, and compareTwoStrings\n// reference: https://www.geeksforgeeks.org/solidity-libraries/\nlibrary Utils {\n    // uint8ToString is a utility function that converts a uint8 to a string\n    // @param number (uint8) - The number to be converted\n    // @return (string) - The string of the number\n    function uint8ToString(uint8 number) internal pure returns (string memory) {\n        // Convert uint8 to ASCII (single-character string)\n        // In ASCII, the digits 0-9 have the code points 48-57\n        // So, to convert a digit to its ASCII code, we can add 48 to the digit\n        bytes1 b = bytes1(uint8(number) + 48);\n\n        // Convert ASCII to string\n        return string(abi.encodePacked(b));\n    }\n\n    // concatTwoStrings is a utility function that concatenates two strings\n    // @param a (string) - The first string\n    // @param b (string) - The second string\n    // @return (string) - The concatenated string\n    function concatTwoStrings(string memory a, string memory b)\n    internal\n    pure\n    returns (string memory)\n    {\n        return string(abi.encodePacked(a, b));\n    }\n\n    // compareTwoStrings is a utility function that compares two strings\n    // @param a (string) - The first string\n    // @param b (string) - The second string\n    // @return (bool) - The result of the comparison\n    // reference: https://www.educative.io/answers/how-to-compare-two-strings-in-solidity\n    function compareTwoStrings(string memory a, string memory b)\n    internal\n    pure\n    returns (bool)\n    {\n        if (bytes(a).length != bytes(b).length) {\n            return false;\n        }\n        return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));\n    }\n}\n\n// Orders contract is used to manage the orders\ncontract Orders {\n    // _orders is a private mapping that stores the orders\n    mapping(string => Order) private _orders;\n\n    // orderIDSequence is a private variable that stores the sequence of order id\n    uint8 private orderIDSequence = 1;\n\n    // ORDER_ID_PREFIX is a private string constant that represents the prefix of an order id\n    string private constant ORDER_ID_PREFIX = \"order_id_\";\n\n    // OrderStatus is an enum type that represents the status of an order\n    enum OrderStatus {\n        PaymentPending, // default status\n        PaymentFailed, // status when payment failed\n        New, // status when a new order is created\n        Canceled, // status when an order is canceled\n        PartialRefunded // status when an order is partially refunded\n    }\n\n    // Order is a struct type that represents the information of an order\n    struct Order {\n        string id; // order id\n        string productID; // product id\n        uint256 amount; // the amount of the order, in this case, it is the price of the product.\n        address payable customerAddress; // the customer address\n        OrderStatus status; // the status of the order\n        uint256 refundedAmount; // the refunded amount of the order\n    }\n\n    // generateOrderID is a private function that generates an order id\n    // @return (STRING) - The order id\n    function generateOrderID() private returns (string memory) {\n        // Convert orderIDSequence to string\n        string memory orderIDSequenceStr = Utils.uint8ToString(orderIDSequence);\n\n        // Concatenate ORDER_ID_PREFIX and orderIDSequenceStr to create the order id\n        // For example, if orderIDSequence is 1, then the order id will be \"order_id_1\"\n        string memory newOrderID = Utils.concatTwoStrings(\n            ORDER_ID_PREFIX,\n            orderIDSequenceStr\n        );\n\n        // Increment orderIDSequence for the next order\n        orderIDSequence++;\n\n        return newOrderID;\n    }\n\n    // addOrderToOrders is a internal function that adds an order to the _orders\n    // @param order (ORDER) - The order to be added\n    function addOrderToOrders(Order memory order) internal {\n        _orders[order.id] = order;\n    }\n\n    // getOrder is a internal function that gets an order from the _orders\n    function getOrder(string memory orderID)\n    internal\n    view\n    returns (Order memory)\n    {\n        // Get the order from the _orders\n        Order memory order = _orders[orderID];\n\n        // Check if the order is found\n        // The require function is used to check if the condition is true. If the condition is false, then the function\n        // will stop and revert the transaction as well as return the defined error message.\n        // For example, if the order is not found, then the function will stop and return the error message \"Order is not found\"\n        require(bytes(order.id).length > 0, \"Order is not found\");\n\n        return order;\n    }\n\n    // createOrder is a private function that creates an order.\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of the product\n    // @param customerAddress (address) - The customer address\n    // @return (Order) - The order\n    function createOrder(\n        string memory productID,\n        uint256 amount,\n        address payable customerAddress\n    ) internal returns (Order memory) {\n        Order memory order;\n        order.id = generateOrderID();\n        order.productID = productID;\n        order.amount = amount;\n        order.customerAddress = customerAddress;\n        order.status = OrderStatus.PaymentPending;\n        order.refundedAmount = 0;\n        return order;\n    }\n\n    // updateOrderStatus is a private function that updates the status of an order.\n    // @param orderID (string) - The order id\n    // @param newStatus (OrderStatus) - The new status of the order\n    function updateOrderStatus(string memory orderID, OrderStatus newStatus)\n    internal\n    {\n        Order storage order = _orders[orderID];\n\n        // Update the status of the order\n        // The storage keyword is used to store the value in the storage of the contract. Therefore, the value will be\n        // updated in the _orders.\n        order.status = newStatus;\n    }\n}\n\n// Products contract is used to manage the products\ncontract Products {\n    // Product is a struct type that represents the information of a product\n    struct Product {\n        string id; // the id of the product\n        string name; // the name of the product\n        string description; // the description of the product\n        string image; // the image link of the product\n        uint256 price; // the price of the product\n    }\n\n    // listProducts is a private variable that stores the list of products\n    Product[3] internal listProducts;\n\n    constructor() {\n        // Set the list of products\n        setListProducts();\n    }\n\n    // setListProducts is a private function that sets the list of products\n    function setListProducts() private {\n        listProducts[0] = Product(\n            \"product_id_1\", // product id\n            \"Product 1\", // product name\n            \"Description 1\", // product description\n            \"image_1\", // product image\n            1e18 // product price in wei, is equal to 1 ether\n        );\n        listProducts[1] = Product(\n            \"product_id_2\", // product id\n            \"Product 2\", // product name\n            \"Description 2\", // product description\n            \"image_2\", // product image\n            2e18 // product price in wei, is equal to 2 ether\n        );\n        listProducts[2] = Product(\n            \"product_id_3\",\n            \"Product 3\",\n            \"Description 3\",\n            \"image_3\",\n            3e18 // in wei, is equal to 3 ether\n        );\n    }\n\n    // getProductFromListProducts is a private function that gets a product from the list of products\n    // @param productID (string) - The product id\n    // @return (Product) - The product\n    function getProductFromListProducts(string memory productID)\n    internal\n    view\n    returns (Product memory)\n    {\n        for (uint256 i = 0; i < listProducts.length; i++) {\n            // Check if the product id is equal to the productID\n            if (Utils.compareTwoStrings(listProducts[i].id, productID)) {\n                return listProducts[i];\n            }\n        }\n\n        // Return an empty product if the product is not found\n        return Product(\"\", \"\", \"\", \"\", 0);\n    }\n}\n\n// EcommerceOrderPurchasingAbstract is an interface that defines the functions of EcommerceOrderPurchasing\n// It inherits from Products\nabstract contract EcommerceOrderPurchasingAbstract is Products {\n    // getProducts is a function that returns the list of products\n    // @return (Product[3]) - The list of products\n    function getProducts() public view virtual returns (Product[3] memory);\n\n    // placeOrder is a function that is used to place an order\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of order, in this case, it is the price of the product\n    // @param customer (address) - The customer address\n    // @return (string) - The message of the result\n    function placeOrder(\n        string memory,\n        uint256,\n        address payable\n    ) external payable virtual returns (string memory);\n\n    // cancelOrder is a function that is used to cancel an order\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory)\n    public\n    payable\n    virtual\n    returns (string memory);\n\n    // issueRefund is a function that is used to issue a refund\n    // @param orderID (string) - The order id\n    // @param refundAmount (uint256) - The refund amount\n    function issueRefund(string memory, uint256)\n    public\n    payable\n    virtual\n    returns (string memory, bool);\n\n    // setRetailer is a function that is used to set the retailer\n    function setRetailer(address payable) public virtual;\n}\n\n// EcommerceOrderPurchasingImplement is a contract that implements the functions of EcommerceOrderPurchasing\n// It inherits from Products, Orders, and EcommerceOrderPurchasingAbstract\ncontract EcommerceOrderPurchasingImplement is\nProducts,\nOrders,\nEcommerceOrderPurchasingAbstract\n{\n    // retailer is a private variable that stores the retailer address\n    // The retailer is the address that receives the payment from the customer when an order is placed successfully and\n    // issues a refund when an order is canceled or partially refunded.\n    // The retailer is set by the setRetailer function.\n    address payable retailer;\n\n    // setRetailer is an implementation of the setRetailer function of EcommerceOrderPurchasingAbstract\n    // @param initRetailer (address) - The retailer address to be set\n    function setRetailer(address payable initRetailer) public override {\n        retailer = initRetailer;\n    }\n\n    // getProducts is an implementation of the getProducts function of EcommerceOrderPurchasingAbstract\n    // @return (Product[3]) - The list of products\n    function getProducts() public view override returns (Product[3] memory) {\n        return listProducts;\n    }\n\n    // placeOrder is an implementation of the placeOrder function of EcommerceOrderPurchasingAbstract\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of the product\n    // @param customer (address) - The customer address\n    // @return (string) - The message of the result\n    function placeOrder(\n        string memory productID,\n        uint256 amount,\n        address payable customer\n    ) external payable override returns (string memory) {\n        // Step 1: Check if the product is valid.\n        Product memory product = getProductFromListProducts(productID);\n        // If the product.id is equal to \"\", then the product is invalid.\n        if (Utils.compareTwoStrings(product.id, \"\")) {\n            return \"Product is invalid\";\n        }\n\n        // Step 1.1: Check if the amount is equal to the price of the product.\n        // Note: this step is not mentioned in the assignment 1, but I think it is necessary to check if the amount is\n        // equal to the price of the product. Therefore, I added this step to make the code more secure.\n        if (product.price != amount) {\n            return \"Amount is not equal to price of product\";\n        }\n\n        // Step 2: Check if the customer has enough balance.\n        if (customer.balance < amount) {\n            return \"Not enough balance\";\n        }\n\n        // Step 3: Create an order.\n        Order memory order = createOrder(productID, amount, customer);\n        addOrderToOrders(order);\n\n        // Step 4: Issue a transaction from customer to retailer.\n        bool sent = sendEther(retailer, amount);\n        if (!sent) {\n            updateOrderStatus(order.id, OrderStatus.PaymentFailed);\n            return \"Transaction failed\";\n        }\n\n        updateOrderStatus(order.id, OrderStatus.New);\n        return\n            Utils.concatTwoStrings(\n            \"You have successfully purchased an order with id \",\n            order.id\n        );\n    }\n\n    // cancelOrder is an implementation of the cancelOrder function of EcommerceOrderPurchasingAbstract\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory orderID)\n    public\n    payable\n    override\n    returns (string memory)\n    {\n        // Step 1: Get Order info from order id.\n        Order memory order = getOrder(orderID);\n\n        // Step 2: Check if the order is already canceled.\n        if (order.status == OrderStatus.Canceled) {\n            return \"This order is already canceled\";\n        }\n\n        // Step 3: Proceed to cancel the order.\n        bool canCancelOrder = (order.status == OrderStatus.New ||\n            order.status == OrderStatus.PartialRefunded);\n        if (!canCancelOrder) {\n            return \"The order status is invalid\";\n        }\n\n        // Step 3.1: Calculate the refund amount.\n        uint256 refund_amount = order.amount - order.refundedAmount;\n\n        // Step 3.2: Check if the refund amount is 0 then update the order status to canceled.\n        if (refund_amount == 0) {\n            updateOrderStatus(order.id, OrderStatus.Canceled);\n            return \"You successfully canceled your order\";\n        }\n\n        // Step 3.3: Issue a refund and update the order status to canceled.\n        (string memory refundMessage, bool isRefundSuccess) = issueRefund(\n            orderID,\n            refund_amount\n        );\n        if (isRefundSuccess) {\n            updateOrderStatus(order.id, OrderStatus.Canceled);\n            return \"You successfully canceled your order\";\n        }\n        return refundMessage;\n    }\n\n    // issueRefund is an implementation of the issueRefund function of EcommerceOrderPurchasingAbstract\n    // @param orderID (string) - The order id\n    // @param refundAmount (uint256) - The refund amount\n    function issueRefund(string memory orderID, uint256 refundAmount)\n    public\n    payable\n    override\n    returns (string memory, bool)\n    {\n        // Step 1: Get order info from order id.\n        Order memory order = getOrder(orderID);\n\n        // Step 2: Calculate max refund amount.\n        uint256 maxRefundAmount = order.amount - order.refundedAmount;\n\n        // Step 3: Compare max refund amount with refund amount\n        bool isRefundSuccess = false;\n        if (refundAmount > maxRefundAmount) {\n            // convert maxRefundAmount to string\n            string memory maxRefundAmountStr = string(\n                abi.encodePacked(maxRefundAmount)\n            );\n            return (\n                Utils.concatTwoStrings(\n                \"Refund amount is greater than: \",\n                maxRefundAmountStr\n            ),\n                isRefundSuccess\n            );\n        }\n\n        // Step 4: Issue a refund transaction.\n        bool sent = sendEther(order.customerAddress, refundAmount);\n        if (!sent) {\n            return (\"Transaction failed\", isRefundSuccess);\n        }\n\n        isRefundSuccess = true;\n        return (\"You successfully refunded your payment\", isRefundSuccess);\n    }\n\n    // sendEther is a private function that sends ether to an address\n    // @param to (address) - The address to send ether to\n    // @param value (uint256) - The value of ether to send\n    // @return (bool) - The result of the transaction (true or false)\n    function sendEther(address payable to, uint256 value)\n    public\n    payable\n    returns (bool)\n    {\n        (bool sent, ) = to.call{value: value}(\"\");\n        return sent;\n    }\n}\n\n// EcommerceOrderPurchasing is the main contract of the EcommerceOrderPurchasing system.\n// It inherits from Products and Orders.\n// I used the contract EcommerceOrderPurchasingImplement to implement the functions of EcommerceOrderPurchasingAbstract.\n// This helps to separate the interface and the implementation of the EcommerceOrderPurchasing system.\n// Therefore, ensuring the encapsulation of the business logic.\ncontract EcommerceOrderPurchasing is Products, Orders {\n    // EcommerceOrderPurchasing is an instance of EcommerceOrderPurchasingAbstract that is used to call the functions of EcommerceOrderPurchasingImplement\n    EcommerceOrderPurchasingAbstract ecommerceOrderPurchasing =\n    new EcommerceOrderPurchasingImplement();\n\n    event PlaceOrder(string message);\n    event CancelOrder(string message);\n    event IssueRefund(string message);\n\n    constructor() {\n        // Set the retailer from the deployer of the contract\n        ecommerceOrderPurchasing.setRetailer(payable(msg.sender));\n    }\n\n    // getProducts is a public function that returns the list of products\n    // It calls the getProducts function of EcommerceOrderPurchasing\n    // @return (Product[3]) - The list of products\n    function getProducts() public view returns (Product[3] memory) {\n        return ecommerceOrderPurchasing.getProducts();\n    }\n\n    // placeOrder is a public function that is used to place an order\n    // It calls the placeOrder function of EcommerceOrderPurchasing\n    // @param productId (string) - The product id\n    // @return (string) - The message of the result\n    function placeOrder(string memory productId)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the placeOrder function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's retailer.\n        string memory message = ecommerceOrderPurchasing.placeOrder{\n                value: msg.value\n            }(productId, msg.value, payable(msg.sender));\n        emit PlaceOrder(message);\n        return message;\n    }\n\n    // cancelOrder is a public function that is used to cancel an order.\n    // It calls the cancelOrder function of EcommerceOrderPurchasing.\n    // This function should be called by the retailer.\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory orderID)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the cancelOrder function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's customer.\n        string memory message = ecommerceOrderPurchasing.cancelOrder{value: msg.value}(orderID);\n        emit CancelOrder(message);\n        return message;\n    }\n\n    // issueRefund is a public function that is used to issue a refund.\n    // It calls the issueRefund function of EcommerceOrderPurchasing.\n    // This function should be called by the retailer.\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function issueRefund(string memory orderID)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the issueRefund function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's customer.\n        (string memory refundMessage, ) = ecommerceOrderPurchasing.issueRefund{\n                value: msg.value\n            }(orderID, msg.value);\n        emit IssueRefund(refundMessage);\n        return refundMessage;\n    }\n}\n",
+  "source": "/*\n  @class: CCMP 603 - Introduction to Smart Contracts - Assignment 2\n  @title: E-commerce Order Purchasing Smart Contract\n  @member: Le, Trung Hieu\n  @date: March 10, 2024\n  @notice: This contract allows customers to purchase products from a retailer.\n  @dev: The contract is implemented using Solidity version greater than 0.8.13\n\n  This contract is for educational purposes only. It is not intended for use in a production environment.\n  The aim of this contract is to not only complete the assignment but also try to implement as many of Solidity's features as possible, including\n  the use of libraries, interfaces, and abstract contracts.\n  There are some points that should be considered before reviewing the code:\n  - The EcommerceOrderPurchasing is the main contract of the EcommerceOrderPurchasing system.\n  - The EcommerceOrderPurchasingAbstract is an abstract contract that defines the functions of EcommerceOrderPurchasing.\n  - The EcommerceOrderPurchasingImplement is a contract that implements the functions of EcommerceOrderPurchasing.\n  - The Products contract is used to manage the products.\n  - The Orders contract is used to manage the orders.\n  - The library Utils contains utility functions for the EcommerceOrderPurchasing system.\n  - Because there is no double type in Solidity, the uint256 type is used to represent any double type that is defined in Assignment 1.\n  - Because there is no print function in Solidity, all print statements in Assignment 1 are replaced by the return statement.\n  - The number of products is fixed to 3, and the product information is hardcoded in the contract.\n  - The retailer is set by the deployer of the contract.\n\n  I am looking forward to receiving your feedback. Thank you for your time and consideration.\n*/\n// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.13;\n\n// Utils is a library that contains utility functions for the EcommerceOrderPurchasing system\n// The functions include uint8ToString, concatTwoStrings, and compareTwoStrings\n// reference: https://www.geeksforgeeks.org/solidity-libraries/\nlibrary Utils {\n    // uint8ToString is a utility function that converts a uint8 to a string\n    // @param number (uint8) - The number to be converted\n    // @return (string) - The string of the number\n    function uint8ToString(uint8 number) internal pure returns (string memory) {\n        // Convert uint8 to ASCII (single-character string)\n        // In ASCII, the digits 0-9 have the code points 48-57\n        // So, to convert a digit to its ASCII code, we can add 48 to the digit\n        bytes1 b = bytes1(uint8(number) + 48);\n\n        // Convert ASCII to string\n        return string(abi.encodePacked(b));\n    }\n\n    // concatTwoStrings is a utility function that concatenates two strings\n    // @param a (string) - The first string\n    // @param b (string) - The second string\n    // @return (string) - The concatenated string\n    function concatTwoStrings(string memory a, string memory b)\n    internal\n    pure\n    returns (string memory)\n    {\n        return string(abi.encodePacked(a, b));\n    }\n\n    // compareTwoStrings is a utility function that compares two strings\n    // @param a (string) - The first string\n    // @param b (string) - The second string\n    // @return (bool) - The result of the comparison\n    // reference: https://www.educative.io/answers/how-to-compare-two-strings-in-solidity\n    function compareTwoStrings(string memory a, string memory b)\n    internal\n    pure\n    returns (bool)\n    {\n        if (bytes(a).length != bytes(b).length) {\n            return false;\n        }\n        return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));\n    }\n}\n\n// Orders contract is used to manage the orders\ncontract Orders {\n    // _orders is a private mapping that stores the orders\n    mapping(string => Order) private _orders;\n\n    // orderIDSequence is a private variable that stores the sequence of order id\n    uint8 private orderIDSequence = 1;\n\n    // ORDER_ID_PREFIX is a private string constant that represents the prefix of an order id\n    string private constant ORDER_ID_PREFIX = \"order_id_\";\n\n    // OrderStatus is an enum type that represents the status of an order\n    enum OrderStatus {\n        PaymentPending, // default status\n        PaymentFailed, // status when payment failed\n        New, // status when a new order is created\n        Canceled, // status when an order is canceled\n        PartialRefunded // status when an order is partially refunded\n    }\n\n    // Order is a struct type that represents the information of an order\n    struct Order {\n        string id; // order id\n        string productID; // product id\n        uint256 amount; // the amount of the order, in this case, it is the price of the product.\n        address payable customerAddress; // the customer address\n        OrderStatus status; // the status of the order\n        uint256 refundedAmount; // the refunded amount of the order\n    }\n\n    // generateOrderID is a private function that generates an order id\n    // @return (STRING) - The order id\n    function generateOrderID() private returns (string memory) {\n        // Convert orderIDSequence to string\n        string memory orderIDSequenceStr = Utils.uint8ToString(orderIDSequence);\n\n        // Concatenate ORDER_ID_PREFIX and orderIDSequenceStr to create the order id\n        // For example, if orderIDSequence is 1, then the order id will be \"order_id_1\"\n        string memory newOrderID = Utils.concatTwoStrings(\n            ORDER_ID_PREFIX,\n            orderIDSequenceStr\n        );\n\n        // Increment orderIDSequence for the next order\n        orderIDSequence++;\n\n        return newOrderID;\n    }\n\n    // addOrderToOrders is a internal function that adds an order to the _orders\n    // @param order (ORDER) - The order to be added\n    function addOrderToOrders(Order memory order) internal {\n        _orders[order.id] = order;\n    }\n\n    // getOrder is a internal function that gets an order from the _orders\n    function getOrder(string memory orderID)\n    internal\n    view\n    returns (Order memory)\n    {\n        // Get the order from the _orders\n        Order memory order = _orders[orderID];\n\n        // Check if the order is found\n        // The require function is used to check if the condition is true. If the condition is false, then the function\n        // will stop and revert the transaction as well as return the defined error message.\n        // For example, if the order is not found, then the function will stop and return the error message \"Order is not found\"\n        require(bytes(order.id).length > 0, \"Order is not found\");\n\n        return order;\n    }\n\n    // createOrder is a private function that creates an order.\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of the product\n    // @param customerAddress (address) - The customer address\n    // @return (Order) - The order\n    function createOrder(\n        string memory productID,\n        uint256 amount,\n        address payable customerAddress\n    ) internal returns (Order memory) {\n        Order memory order;\n        order.id = generateOrderID();\n        order.productID = productID;\n        order.amount = amount;\n        order.customerAddress = customerAddress;\n        order.status = OrderStatus.PaymentPending;\n        order.refundedAmount = 0;\n        return order;\n    }\n\n    // updateOrderStatus is a private function that updates the status of an order.\n    // @param orderID (string) - The order id\n    // @param newStatus (OrderStatus) - The new status of the order\n    function updateOrderStatus(string memory orderID, OrderStatus newStatus)\n    internal\n    {\n        Order storage order = _orders[orderID];\n\n        // Update the status of the order\n        // The storage keyword is used to store the value in the storage of the contract. Therefore, the value will be\n        // updated in the _orders.\n        order.status = newStatus;\n    }\n}\n\n// Products contract is used to manage the products\ncontract Products {\n    // Product is a struct type that represents the information of a product\n    struct Product {\n        string id; // the id of the product\n        string name; // the name of the product\n        string description; // the description of the product\n        string image; // the image link of the product\n        uint256 price; // the price of the product\n    }\n\n    // listProducts is a private variable that stores the list of products\n    Product[3] internal listProducts;\n\n    constructor() {\n        // Set the list of products\n        setListProducts();\n    }\n\n    // setListProducts is a private function that sets the list of products\n    function setListProducts() private {\n        listProducts[0] = Product(\n            \"product_id_1\", // product id\n            \"Product 1\", // product name\n            \"Description 1\", // product description\n            \"image_1\", // product image\n            1e18 // product price in wei, is equal to 1 ether\n        );\n        listProducts[1] = Product(\n            \"product_id_2\", // product id\n            \"Product 2\", // product name\n            \"Description 2\", // product description\n            \"image_2\", // product image\n            2e18 // product price in wei, is equal to 2 ether\n        );\n        listProducts[2] = Product(\n            \"product_id_3\",\n            \"Product 3\",\n            \"Description 3\",\n            \"image_3\",\n            3e18 // in wei, is equal to 3 ether\n        );\n    }\n\n    // getProductFromListProducts is a private function that gets a product from the list of products\n    // @param productID (string) - The product id\n    // @return (Product) - The product\n    function getProductFromListProducts(string memory productID)\n    internal\n    view\n    returns (Product memory)\n    {\n        for (uint256 i = 0; i < listProducts.length; i++) {\n            // Check if the product id is equal to the productID\n            if (Utils.compareTwoStrings(listProducts[i].id, productID)) {\n                return listProducts[i];\n            }\n        }\n\n        // Return an empty product if the product is not found\n        return Product(\"\", \"\", \"\", \"\", 0);\n    }\n}\n\n// EcommerceOrderPurchasingAbstract is an interface that defines the functions of EcommerceOrderPurchasing\n// It inherits from Products\nabstract contract EcommerceOrderPurchasingAbstract is Products {\n    // getProducts is a function that returns the list of products\n    // @return (Product[3]) - The list of products\n    function getProducts() public view virtual returns (Product[3] memory);\n\n    // placeOrder is a function that is used to place an order\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of order, in this case, it is the price of the product\n    // @param customer (address) - The customer address\n    // @return (string) - The message of the result\n    function placeOrder(\n        string memory,\n        uint256,\n        address payable\n    ) external payable virtual returns (string memory);\n\n    // cancelOrder is a function that is used to cancel an order\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory)\n    public\n    payable\n    virtual\n    returns (string memory);\n\n    // issueRefund is a function that is used to issue a refund\n    // @param orderID (string) - The order id\n    // @param refundAmount (uint256) - The refund amount\n    function issueRefund(string memory, uint256)\n    public\n    payable\n    virtual\n    returns (string memory, bool);\n\n    // setRetailer is a function that is used to set the retailer\n    function setRetailer(address payable) public virtual;\n}\n\n// EcommerceOrderPurchasingImplement is a contract that implements the functions of EcommerceOrderPurchasing\n// It inherits from Products, Orders, and EcommerceOrderPurchasingAbstract\ncontract EcommerceOrderPurchasingImplement is\nProducts,\nOrders,\nEcommerceOrderPurchasingAbstract\n{\n    // retailer is a private variable that stores the retailer address\n    // The retailer is the address that receives the payment from the customer when an order is placed successfully and\n    // issues a refund when an order is canceled or partially refunded.\n    // The retailer is set by the setRetailer function.\n    address payable retailer;\n\n    // setRetailer is an implementation of the setRetailer function of EcommerceOrderPurchasingAbstract\n    // @param initRetailer (address) - The retailer address to be set\n    function setRetailer(address payable initRetailer) public override {\n        retailer = initRetailer;\n    }\n\n    // getProducts is an implementation of the getProducts function of EcommerceOrderPurchasingAbstract\n    // @return (Product[3]) - The list of products\n    function getProducts() public view override returns (Product[3] memory) {\n        return listProducts;\n    }\n\n    // placeOrder is an implementation of the placeOrder function of EcommerceOrderPurchasingAbstract\n    // @param productID (string) - The product id\n    // @param amount (uint256) - The amount of the product\n    // @param customer (address) - The customer address\n    // @return (string) - The message of the result\n    function placeOrder(\n        string memory productID,\n        uint256 amount,\n        address payable customer\n    ) external payable override returns (string memory) {\n        // Step 1: Check if the product is valid.\n        Product memory product = getProductFromListProducts(productID);\n        // If the product.id is equal to \"\", then the product is invalid.\n        if (Utils.compareTwoStrings(product.id, \"\")) {\n            return \"Product is invalid\";\n        }\n\n        // Step 1.1: Check if the amount is equal to the price of the product.\n        // Note: this step is not mentioned in the assignment 1, but I think it is necessary to check if the amount is\n        // equal to the price of the product. Therefore, I added this step to make the code more secure.\n        if (product.price != amount) {\n            return \"Amount is not equal to price of product\";\n        }\n\n        // Step 2: Check if the customer has enough balance.\n        if (customer.balance < amount) {\n            return \"Not enough balance\";\n        }\n\n        // Step 3: Create an order.\n        Order memory order = createOrder(productID, amount, customer);\n        addOrderToOrders(order);\n\n        // Step 4: Issue a transaction from customer to retailer.\n        bool sent = sendEther(retailer, amount);\n        if (!sent) {\n            updateOrderStatus(order.id, OrderStatus.PaymentFailed);\n            return \"Transaction failed\";\n        }\n\n        updateOrderStatus(order.id, OrderStatus.New);\n        return\n            Utils.concatTwoStrings(\n            \"You have successfully purchased an order with id \",\n            order.id\n        );\n    }\n\n    // cancelOrder is an implementation of the cancelOrder function of EcommerceOrderPurchasingAbstract\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory orderID)\n    public\n    payable\n    override\n    returns (string memory)\n    {\n        // Step 1: Get Order info from order id.\n        Order memory order = getOrder(orderID);\n\n        // Step 2: Check if the order is already canceled.\n        if (order.status == OrderStatus.Canceled) {\n            return \"This order is already canceled\";\n        }\n\n        // Step 3: Proceed to cancel the order.\n        bool canCancelOrder = (order.status == OrderStatus.New ||\n            order.status == OrderStatus.PartialRefunded);\n        if (!canCancelOrder) {\n            return \"The order status is invalid\";\n        }\n\n        // Step 3.1: Calculate the refund amount.\n        uint256 refund_amount = order.amount - order.refundedAmount;\n\n        // Step 3.2: Check if the refund amount is 0 then update the order status to canceled.\n        if (refund_amount == 0) {\n            updateOrderStatus(order.id, OrderStatus.Canceled);\n            return \"You successfully canceled your order\";\n        }\n\n        // Step 3.3: Issue a refund and update the order status to canceled.\n        (string memory refundMessage, bool isRefundSuccess) = issueRefund(\n            orderID,\n            refund_amount\n        );\n        if (isRefundSuccess) {\n            updateOrderStatus(order.id, OrderStatus.Canceled);\n            return \"You successfully canceled your order\";\n        }\n        return refundMessage;\n    }\n\n    // issueRefund is an implementation of the issueRefund function of EcommerceOrderPurchasingAbstract\n    // @param orderID (string) - The order id\n    // @param refundAmount (uint256) - The refund amount\n    function issueRefund(string memory orderID, uint256 refundAmount)\n    public\n    payable\n    override\n    returns (string memory, bool)\n    {\n        // Step 1: Get order info from order id.\n        Order memory order = getOrder(orderID);\n\n        // Step 2: Calculate max refund amount.\n        uint256 maxRefundAmount = order.amount - order.refundedAmount;\n\n        // Step 3: Compare max refund amount with refund amount\n        bool isRefundSuccess = false;\n        if (refundAmount > maxRefundAmount) {\n            // convert maxRefundAmount to string\n            string memory maxRefundAmountStr = string(\n                abi.encodePacked(maxRefundAmount)\n            );\n            return (\n                Utils.concatTwoStrings(\n                \"Refund amount is greater than: \",\n                maxRefundAmountStr\n            ),\n                isRefundSuccess\n            );\n        }\n\n        // Step 4: Issue a refund transaction.\n        bool sent = sendEther(order.customerAddress, refundAmount);\n        if (!sent) {\n            return (\"Transaction failed\", isRefundSuccess);\n        }\n\n        isRefundSuccess = true;\n        return (Utils.concatTwoStrings(\"You successfully refunded your payment: \", string(abi.encodePacked(maxRefundAmount))), isRefundSuccess);\n    }\n\n    // sendEther is a private function that sends ether to an address\n    // @param to (address) - The address to send ether to\n    // @param value (uint256) - The value of ether to send\n    // @return (bool) - The result of the transaction (true or false)\n    function sendEther(address payable to, uint256 value)\n    public\n    payable\n    returns (bool)\n    {\n        (bool sent, ) = to.call{value: value}(\"\");\n        return sent;\n    }\n}\n\n// EcommerceOrderPurchasing is the main contract of the EcommerceOrderPurchasing system.\n// It inherits from Products and Orders.\n// I used the contract EcommerceOrderPurchasingImplement to implement the functions of EcommerceOrderPurchasingAbstract.\n// This helps to separate the interface and the implementation of the EcommerceOrderPurchasing system.\n// Therefore, ensuring the encapsulation of the business logic.\ncontract EcommerceOrderPurchasing is Products, Orders {\n    // EcommerceOrderPurchasing is an instance of EcommerceOrderPurchasingAbstract that is used to call the functions of EcommerceOrderPurchasingImplement\n    EcommerceOrderPurchasingAbstract ecommerceOrderPurchasing =\n    new EcommerceOrderPurchasingImplement();\n\n    event PlaceOrder(string message);\n    event CancelOrder(string message);\n    event IssueRefund(string message);\n\n    constructor() {\n        // Set the retailer from the deployer of the contract\n        ecommerceOrderPurchasing.setRetailer(payable(msg.sender));\n    }\n\n    // getProducts is a public function that returns the list of products\n    // It calls the getProducts function of EcommerceOrderPurchasing\n    // @return (Product[3]) - The list of products\n    function getProducts() public view returns (Product[3] memory) {\n        return ecommerceOrderPurchasing.getProducts();\n    }\n\n    // placeOrder is a public function that is used to place an order\n    // It calls the placeOrder function of EcommerceOrderPurchasing\n    // @param productId (string) - The product id\n    // @return (string) - The message of the result\n    function placeOrder(string memory productId)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the placeOrder function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's retailer.\n        string memory message = ecommerceOrderPurchasing.placeOrder{\n                value: msg.value\n            }(productId, msg.value, payable(msg.sender));\n        emit PlaceOrder(message);\n        return message;\n    }\n\n    // cancelOrder is a public function that is used to cancel an order.\n    // It calls the cancelOrder function of EcommerceOrderPurchasing.\n    // This function should be called by the retailer.\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function cancelOrder(string memory orderID)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the cancelOrder function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's customer.\n        string memory message = ecommerceOrderPurchasing.cancelOrder{value: msg.value}(orderID);\n        emit CancelOrder(message);\n        return message;\n    }\n\n    // issueRefund is a public function that is used to issue a refund.\n    // It calls the issueRefund function of EcommerceOrderPurchasing.\n    // This function should be called by the retailer.\n    // @param orderID (string) - The order id\n    // @return (string) - The message of the result\n    function issueRefund(string memory orderID)\n    public\n    payable\n    returns (string memory)\n    {\n        // the {value: msg.value} is used to send the value of the transaction to the issueRefund function of\n        // EcommerceOrderPurchasing. Without this, the transaction maybe failed or the transaction will be sent to address's\n        // contract instead of the address's customer.\n        (string memory refundMessage, ) = ecommerceOrderPurchasing.issueRefund{\n                value: msg.value\n            }(orderID, msg.value);\n        emit IssueRefund(refundMessage);\n        return refundMessage;\n    }\n}\n",
   "sourcePath": "/Users/trunghieu/Library/Mobile Documents/com~apple~CloudDocs/data/cloud-computing-and-blockchain/ecommerce-order-purchasing-backend/contracts/EcommerceOrderPurchasing.sol",
   "ast": {
     "absolutePath": "project:/contracts/EcommerceOrderPurchasing.sol",
     "exportedSymbols": {
       "EcommerceOrderPurchasing": [
-        870
+        880
       ],
       "EcommerceOrderPurchasingAbstract": [
         422
       ],
       "EcommerceOrderPurchasingImplement": [
-        738
+        748
       ],
       "Orders": [
         269
@@ -33,7 +33,7 @@
         88
       ]
     },
-    "id": 871,
+    "id": 881,
     "license": "GPL-3.0",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -1226,7 +1226,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 871,
+        "scope": 881,
         "src": "2073:1600:0",
         "usedErrors": []
       },
@@ -3345,7 +3345,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 871,
+        "scope": 881,
         "src": "3723:4246:0",
         "usedErrors": []
       },
@@ -4824,7 +4824,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 871,
+        "scope": 881,
         "src": "8023:2168:0",
         "usedErrors": []
       },
@@ -5365,7 +5365,7 @@
             "visibility": "public"
           }
         ],
-        "scope": 871,
+        "scope": 881,
         "src": "10329:1406:0",
         "usedErrors": []
       },
@@ -5422,9 +5422,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 738,
+        "id": 748,
         "linearizedBaseContracts": [
-          738,
+          748,
           422,
           269,
           377
@@ -5440,7 +5440,7 @@
             "name": "retailer",
             "nameLocation": "12359:8:0",
             "nodeType": "VariableDeclaration",
-            "scope": 738,
+            "scope": 748,
             "src": "12343:24:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -5570,7 +5570,7 @@
               "parameters": [],
               "src": "12615:0:0"
             },
-            "scope": 738,
+            "scope": 748,
             "src": "12548:107:0",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -5694,7 +5694,7 @@
               ],
               "src": "12868:19:0"
             },
-            "scope": 738,
+            "scope": 748,
             "src": "12816:108:0",
             "stateMutability": "view",
             "virtual": false,
@@ -6381,7 +6381,7 @@
                       "name": "sendEther",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 737,
+                      "referencedDeclaration": 747,
                       "src": "14517:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_payable_$_t_uint256_$returns$_t_bool_$",
@@ -6918,7 +6918,7 @@
               ],
               "src": "13400:15:0"
             },
-            "scope": 738,
+            "scope": 748,
             "src": "13249:1645:0",
             "stateMutability": "payable",
             "virtual": false,
@@ -7814,9 +7814,9 @@
                       "name": "issueRefund",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        716
+                        726
                       ],
-                      "referencedDeclaration": 716,
+                      "referencedDeclaration": 726,
                       "src": "16274:11:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_string_memory_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_bool_$",
@@ -8092,7 +8092,7 @@
               ],
               "src": "15194:15:0"
             },
-            "scope": 738,
+            "scope": 748,
             "src": "15102:1441:0",
             "stateMutability": "payable",
             "virtual": false,
@@ -8103,9 +8103,9 @@
               416
             ],
             "body": {
-              "id": 715,
+              "id": 725,
               "nodeType": "Block",
-              "src": "16896:1077:0",
+              "src": "16896:1146:0",
               "statements": [
                 {
                   "assignments": [
@@ -8119,7 +8119,7 @@
                       "name": "order",
                       "nameLocation": "16968:5:0",
                       "nodeType": "VariableDeclaration",
-                      "scope": 715,
+                      "scope": 725,
                       "src": "16955:18:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
@@ -8215,7 +8215,7 @@
                       "name": "maxRefundAmount",
                       "nameLocation": "17060:15:0",
                       "nodeType": "VariableDeclaration",
-                      "scope": 715,
+                      "scope": 725,
                       "src": "17052:23:0",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -8326,7 +8326,7 @@
                       "name": "isRefundSuccess",
                       "nameLocation": "17193:15:0",
                       "nodeType": "VariableDeclaration",
-                      "scope": 715,
+                      "scope": 725,
                       "src": "17188:20:0",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -8698,7 +8698,7 @@
                       "name": "sent",
                       "nameLocation": "17713:4:0",
                       "nodeType": "VariableDeclaration",
-                      "scope": 715,
+                      "scope": 725,
                       "src": "17708:9:0",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -8778,7 +8778,7 @@
                       "name": "sendEther",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 737,
+                      "referencedDeclaration": 747,
                       "src": "17720:9:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_payable_$_t_uint256_$returns$_t_bool_$",
@@ -8944,56 +8944,222 @@
                   "expression": {
                     "components": [
                       {
-                        "hexValue": "596f75207375636365737366756c6c7920726566756e64656420796f7572207061796d656e74",
-                        "id": 711,
+                        "arguments": [
+                          {
+                            "hexValue": "596f75207375636365737366756c6c7920726566756e64656420796f7572207061796d656e743a20",
+                            "id": 713,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "string",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "17931:42:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_stringliteral_8edcc22c4d4d79473de16c6ad8f9e29a09fb1877ab3fe4d6dbcc9fa0eadd27ba",
+                              "typeString": "literal_string \"You successfully refunded your payment: \""
+                            },
+                            "value": "You successfully refunded your payment: "
+                          },
+                          {
+                            "arguments": [
+                              {
+                                "arguments": [
+                                  {
+                                    "id": 718,
+                                    "name": "maxRefundAmount",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 657,
+                                    "src": "17999:15:0",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_uint256",
+                                      "typeString": "uint256"
+                                    }
+                                  }
+                                ],
+                                "expression": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_uint256",
+                                      "typeString": "uint256"
+                                    }
+                                  ],
+                                  "expression": {
+                                    "id": 716,
+                                    "name": "abi",
+                                    "nodeType": "Identifier",
+                                    "overloadedDeclarations": [],
+                                    "referencedDeclaration": 4294967295,
+                                    "src": "17982:3:0",
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_magic_abi",
+                                      "typeString": "abi"
+                                    }
+                                  },
+                                  "id": 717,
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": true,
+                                  "lValueRequested": false,
+                                  "memberLocation": "17986:12:0",
+                                  "memberName": "encodePacked",
+                                  "nodeType": "MemberAccess",
+                                  "src": "17982:16:0",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_function_abiencodepacked_pure$__$returns$_t_bytes_memory_ptr_$",
+                                    "typeString": "function () pure returns (bytes memory)"
+                                  }
+                                },
+                                "id": 719,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "functionCall",
+                                "lValueRequested": false,
+                                "nameLocations": [],
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "17982:33:0",
+                                "tryCall": false,
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_bytes_memory_ptr",
+                                  "typeString": "bytes memory"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_bytes_memory_ptr",
+                                  "typeString": "bytes memory"
+                                }
+                              ],
+                              "id": 715,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "nodeType": "ElementaryTypeNameExpression",
+                              "src": "17975:6:0",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_string_storage_ptr_$",
+                                "typeString": "type(string storage pointer)"
+                              },
+                              "typeName": {
+                                "id": 714,
+                                "name": "string",
+                                "nodeType": "ElementaryTypeName",
+                                "src": "17975:6:0",
+                                "typeDescriptions": {}
+                              }
+                            },
+                            "id": 720,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "nameLocations": [],
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "17975:41:0",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_string_memory_ptr",
+                              "typeString": "string memory"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_stringliteral_8edcc22c4d4d79473de16c6ad8f9e29a09fb1877ab3fe4d6dbcc9fa0eadd27ba",
+                              "typeString": "literal_string \"You successfully refunded your payment: \""
+                            },
+                            {
+                              "typeIdentifier": "t_string_memory_ptr",
+                              "typeString": "string memory"
+                            }
+                          ],
+                          "expression": {
+                            "id": 711,
+                            "name": "Utils",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 88,
+                            "src": "17908:5:0",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_contract$_Utils_$88_$",
+                              "typeString": "type(library Utils)"
+                            }
+                          },
+                          "id": 712,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberLocation": "17914:16:0",
+                          "memberName": "concatTwoStrings",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 48,
+                          "src": "17908:22:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_internal_pure$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_string_memory_ptr_$",
+                            "typeString": "function (string memory,string memory) pure returns (string memory)"
+                          }
+                        },
+                        "id": 721,
                         "isConstant": false,
                         "isLValue": false,
-                        "isPure": true,
-                        "kind": "string",
+                        "isPure": false,
+                        "kind": "functionCall",
                         "lValueRequested": false,
-                        "nodeType": "Literal",
-                        "src": "17908:40:0",
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "17908:109:0",
+                        "tryCall": false,
                         "typeDescriptions": {
-                          "typeIdentifier": "t_stringliteral_aaddf98d58fb667bd9586b7f1fe12160c61b2d901ec5e35b16b94124cbc1b6ce",
-                          "typeString": "literal_string \"You successfully refunded your payment\""
-                        },
-                        "value": "You successfully refunded your payment"
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
                       },
                       {
-                        "id": 712,
+                        "id": 722,
                         "name": "isRefundSuccess",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 665,
-                        "src": "17950:15:0",
+                        "src": "18019:15:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
                         }
                       }
                     ],
-                    "id": 713,
+                    "id": 723,
                     "isConstant": false,
                     "isInlineArray": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "TupleExpression",
-                    "src": "17907:59:0",
+                    "src": "17907:128:0",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_tuple$_t_stringliteral_aaddf98d58fb667bd9586b7f1fe12160c61b2d901ec5e35b16b94124cbc1b6ce_$_t_bool_$",
-                      "typeString": "tuple(literal_string \"You successfully refunded your payment\",bool)"
+                      "typeIdentifier": "t_tuple$_t_string_memory_ptr_$_t_bool_$",
+                      "typeString": "tuple(string memory,bool)"
                     }
                   },
                   "functionReturnParameters": 648,
-                  "id": 714,
+                  "id": 724,
                   "nodeType": "Return",
-                  "src": "17900:66:0"
+                  "src": "17900:135:0"
                 }
               ]
             },
             "functionSelector": "bf65b332",
-            "id": 716,
+            "id": 726,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -9017,7 +9183,7 @@
                   "name": "orderID",
                   "nameLocation": "16791:7:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 716,
+                  "scope": 726,
                   "src": "16777:21:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -9044,7 +9210,7 @@
                   "name": "refundAmount",
                   "nameLocation": "16808:12:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 716,
+                  "scope": 726,
                   "src": "16800:20:0",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -9078,7 +9244,7 @@
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 716,
+                  "scope": 726,
                   "src": "16871:13:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -9105,7 +9271,7 @@
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 716,
+                  "scope": 726,
                   "src": "16886:4:0",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -9128,33 +9294,33 @@
               ],
               "src": "16870:21:0"
             },
-            "scope": 738,
-            "src": "16756:1217:0",
+            "scope": 748,
+            "src": "16756:1286:0",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 736,
+              "id": 746,
               "nodeType": "Block",
-              "src": "18336:79:0",
+              "src": "18405:79:0",
               "statements": [
                 {
                   "assignments": [
-                    726,
+                    736,
                     null
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 726,
+                      "id": 736,
                       "mutability": "mutable",
                       "name": "sent",
-                      "nameLocation": "18352:4:0",
+                      "nameLocation": "18421:4:0",
                       "nodeType": "VariableDeclaration",
-                      "scope": 736,
-                      "src": "18347:9:0",
+                      "scope": 746,
+                      "src": "18416:9:0",
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
@@ -9162,10 +9328,10 @@
                         "typeString": "bool"
                       },
                       "typeName": {
-                        "id": 725,
+                        "id": 735,
                         "name": "bool",
                         "nodeType": "ElementaryTypeName",
-                        "src": "18347:4:0",
+                        "src": "18416:4:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -9175,19 +9341,19 @@
                     },
                     null
                   ],
-                  "id": 733,
+                  "id": 743,
                   "initialValue": {
                     "arguments": [
                       {
                         "hexValue": "",
-                        "id": 731,
+                        "id": 741,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "kind": "string",
                         "lValueRequested": false,
                         "nodeType": "Literal",
-                        "src": "18384:2:0",
+                        "src": "18453:2:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
                           "typeString": "literal_string \"\""
@@ -9210,32 +9376,32 @@
                           }
                         ],
                         "expression": {
-                          "id": 727,
+                          "id": 737,
                           "name": "to",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 718,
-                          "src": "18362:2:0",
+                          "referencedDeclaration": 728,
+                          "src": "18431:2:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address_payable",
                             "typeString": "address payable"
                           }
                         },
-                        "id": 728,
+                        "id": 738,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
-                        "memberLocation": "18365:4:0",
+                        "memberLocation": "18434:4:0",
                         "memberName": "call",
                         "nodeType": "MemberAccess",
-                        "src": "18362:7:0",
+                        "src": "18431:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_barecall_payable$_t_bytes_memory_ptr_$returns$_t_bool_$_t_bytes_memory_ptr_$",
                           "typeString": "function (bytes memory) payable returns (bool,bytes memory)"
                         }
                       },
-                      "id": 730,
+                      "id": 740,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -9246,25 +9412,25 @@
                       "nodeType": "FunctionCallOptions",
                       "options": [
                         {
-                          "id": 729,
+                          "id": 739,
                           "name": "value",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 720,
-                          "src": "18377:5:0",
+                          "referencedDeclaration": 730,
+                          "src": "18446:5:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         }
                       ],
-                      "src": "18362:21:0",
+                      "src": "18431:21:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_barecall_payable$_t_bytes_memory_ptr_$returns$_t_bool_$_t_bytes_memory_ptr_$value",
                         "typeString": "function (bytes memory) payable returns (bool,bytes memory)"
                       }
                     },
-                    "id": 732,
+                    "id": 742,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -9273,7 +9439,7 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "18362:25:0",
+                    "src": "18431:25:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$_t_bool_$_t_bytes_memory_ptr_$",
@@ -9281,49 +9447,49 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "18346:41:0"
+                  "src": "18415:41:0"
                 },
                 {
                   "expression": {
-                    "id": 734,
+                    "id": 744,
                     "name": "sent",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 726,
-                    "src": "18404:4:0",
+                    "referencedDeclaration": 736,
+                    "src": "18473:4:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 724,
-                  "id": 735,
+                  "functionReturnParameters": 734,
+                  "id": 745,
                   "nodeType": "Return",
-                  "src": "18397:11:0"
+                  "src": "18466:11:0"
                 }
               ]
             },
             "functionSelector": "c1756a2c",
-            "id": 737,
+            "id": 747,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "sendEther",
-            "nameLocation": "18245:9:0",
+            "nameLocation": "18314:9:0",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 721,
+              "id": 731,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 718,
+                  "id": 728,
                   "mutability": "mutable",
                   "name": "to",
-                  "nameLocation": "18271:2:0",
+                  "nameLocation": "18340:2:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 737,
-                  "src": "18255:18:0",
+                  "scope": 747,
+                  "src": "18324:18:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -9331,10 +9497,10 @@
                     "typeString": "address payable"
                   },
                   "typeName": {
-                    "id": 717,
+                    "id": 727,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "18255:15:0",
+                    "src": "18324:15:0",
                     "stateMutability": "payable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address_payable",
@@ -9345,13 +9511,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 720,
+                  "id": 730,
                   "mutability": "mutable",
                   "name": "value",
-                  "nameLocation": "18283:5:0",
+                  "nameLocation": "18352:5:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 737,
-                  "src": "18275:13:0",
+                  "scope": 747,
+                  "src": "18344:13:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -9359,10 +9525,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 719,
+                    "id": 729,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "18275:7:0",
+                    "src": "18344:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -9371,21 +9537,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "18254:35:0"
+              "src": "18323:35:0"
             },
             "returnParameters": {
-              "id": 724,
+              "id": 734,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 723,
+                  "id": 733,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 737,
-                  "src": "18326:4:0",
+                  "scope": 747,
+                  "src": "18395:4:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -9393,10 +9559,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 722,
+                    "id": 732,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "18326:4:0",
+                    "src": "18395:4:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -9405,17 +9571,17 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "18325:6:0"
+              "src": "18394:6:0"
             },
-            "scope": 738,
-            "src": "18236:179:0",
+            "scope": 748,
+            "src": "18305:179:0",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 871,
-        "src": "11921:6496:0",
+        "scope": 881,
+        "src": "11921:6565:0",
         "usedErrors": []
       },
       {
@@ -9423,60 +9589,60 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 739,
+              "id": 749,
               "name": "Products",
               "nameLocations": [
-                "18874:8:0"
+                "18943:8:0"
               ],
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 377,
-              "src": "18874:8:0"
+              "src": "18943:8:0"
             },
-            "id": 740,
+            "id": 750,
             "nodeType": "InheritanceSpecifier",
-            "src": "18874:8:0"
+            "src": "18943:8:0"
           },
           {
             "baseName": {
-              "id": 741,
+              "id": 751,
               "name": "Orders",
               "nameLocations": [
-                "18884:6:0"
+                "18953:6:0"
               ],
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 269,
-              "src": "18884:6:0"
+              "src": "18953:6:0"
             },
-            "id": 742,
+            "id": 752,
             "nodeType": "InheritanceSpecifier",
-            "src": "18884:6:0"
+            "src": "18953:6:0"
           }
         ],
         "canonicalName": "EcommerceOrderPurchasing",
         "contractDependencies": [
-          738
+          748
         ],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 870,
+        "id": 880,
         "linearizedBaseContracts": [
-          870,
+          880,
           269,
           377
         ],
         "name": "EcommerceOrderPurchasing",
-        "nameLocation": "18846:24:0",
+        "nameLocation": "18915:24:0",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 749,
+            "id": 759,
             "mutability": "mutable",
             "name": "ecommerceOrderPurchasing",
-            "nameLocation": "19085:24:0",
+            "nameLocation": "19154:24:0",
             "nodeType": "VariableDeclaration",
-            "scope": 870,
-            "src": "19052:103:0",
+            "scope": 880,
+            "src": "19121:103:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -9484,20 +9650,20 @@
               "typeString": "contract EcommerceOrderPurchasingAbstract"
             },
             "typeName": {
-              "id": 744,
+              "id": 754,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 743,
+                "id": 753,
                 "name": "EcommerceOrderPurchasingAbstract",
                 "nameLocations": [
-                  "19052:32:0"
+                  "19121:32:0"
                 ],
                 "nodeType": "IdentifierPath",
                 "referencedDeclaration": 422,
-                "src": "19052:32:0"
+                "src": "19121:32:0"
               },
               "referencedDeclaration": 422,
-              "src": "19052:32:0",
+              "src": "19121:32:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_contract$_EcommerceOrderPurchasingAbstract_$422",
                 "typeString": "contract EcommerceOrderPurchasingAbstract"
@@ -9507,39 +9673,39 @@
               "arguments": [],
               "expression": {
                 "argumentTypes": [],
-                "id": 747,
+                "id": 757,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": false,
                 "lValueRequested": false,
                 "nodeType": "NewExpression",
-                "src": "19116:37:0",
+                "src": "19185:37:0",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_EcommerceOrderPurchasingImplement_$738_$",
+                  "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_EcommerceOrderPurchasingImplement_$748_$",
                   "typeString": "function () returns (contract EcommerceOrderPurchasingImplement)"
                 },
                 "typeName": {
-                  "id": 746,
+                  "id": 756,
                   "nodeType": "UserDefinedTypeName",
                   "pathNode": {
-                    "id": 745,
+                    "id": 755,
                     "name": "EcommerceOrderPurchasingImplement",
                     "nameLocations": [
-                      "19120:33:0"
+                      "19189:33:0"
                     ],
                     "nodeType": "IdentifierPath",
-                    "referencedDeclaration": 738,
-                    "src": "19120:33:0"
+                    "referencedDeclaration": 748,
+                    "src": "19189:33:0"
                   },
-                  "referencedDeclaration": 738,
-                  "src": "19120:33:0",
+                  "referencedDeclaration": 748,
+                  "src": "19189:33:0",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_EcommerceOrderPurchasingImplement_$738",
+                    "typeIdentifier": "t_contract$_EcommerceOrderPurchasingImplement_$748",
                     "typeString": "contract EcommerceOrderPurchasingImplement"
                   }
                 }
               },
-              "id": 748,
+              "id": 758,
               "isConstant": false,
               "isLValue": false,
               "isPure": false,
@@ -9548,10 +9714,10 @@
               "nameLocations": [],
               "names": [],
               "nodeType": "FunctionCall",
-              "src": "19116:39:0",
+              "src": "19185:39:0",
               "tryCall": false,
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_EcommerceOrderPurchasingImplement_$738",
+                "typeIdentifier": "t_contract$_EcommerceOrderPurchasingImplement_$748",
                 "typeString": "contract EcommerceOrderPurchasingImplement"
               }
             },
@@ -9560,24 +9726,24 @@
           {
             "anonymous": false,
             "eventSelector": "e00dc285ed662da27a182a521016226af8c229c675360edda70b17fa82ab8c8f",
-            "id": 753,
+            "id": 763,
             "name": "PlaceOrder",
-            "nameLocation": "19168:10:0",
+            "nameLocation": "19237:10:0",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 752,
+              "id": 762,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 751,
+                  "id": 761,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "message",
-                  "nameLocation": "19186:7:0",
+                  "nameLocation": "19255:7:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 753,
-                  "src": "19179:14:0",
+                  "scope": 763,
+                  "src": "19248:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -9585,10 +9751,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 750,
+                    "id": 760,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "19179:6:0",
+                    "src": "19248:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -9597,31 +9763,31 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "19178:16:0"
+              "src": "19247:16:0"
             },
-            "src": "19162:33:0"
+            "src": "19231:33:0"
           },
           {
             "anonymous": false,
             "eventSelector": "6b2f88587b83cb197ac558b3eecc02a6d41b89be170be045616db8cdb85836a0",
-            "id": 757,
+            "id": 767,
             "name": "CancelOrder",
-            "nameLocation": "19206:11:0",
+            "nameLocation": "19275:11:0",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 756,
+              "id": 766,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 755,
+                  "id": 765,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "message",
-                  "nameLocation": "19225:7:0",
+                  "nameLocation": "19294:7:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 757,
-                  "src": "19218:14:0",
+                  "scope": 767,
+                  "src": "19287:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -9629,10 +9795,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 754,
+                    "id": 764,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "19218:6:0",
+                    "src": "19287:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -9641,31 +9807,31 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "19217:16:0"
+              "src": "19286:16:0"
             },
-            "src": "19200:34:0"
+            "src": "19269:34:0"
           },
           {
             "anonymous": false,
             "eventSelector": "a9b37c42b72779fc40039ac9d259fc1b01406f04cff3859538d950de1e7bb692",
-            "id": 761,
+            "id": 771,
             "name": "IssueRefund",
-            "nameLocation": "19245:11:0",
+            "nameLocation": "19314:11:0",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 760,
+              "id": 770,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 759,
+                  "id": 769,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "message",
-                  "nameLocation": "19264:7:0",
+                  "nameLocation": "19333:7:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 761,
-                  "src": "19257:14:0",
+                  "scope": 771,
+                  "src": "19326:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -9673,10 +9839,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 758,
+                    "id": 768,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "19257:6:0",
+                    "src": "19326:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -9685,15 +9851,15 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "19256:16:0"
+              "src": "19325:16:0"
             },
-            "src": "19239:34:0"
+            "src": "19308:34:0"
           },
           {
             "body": {
-              "id": 774,
+              "id": 784,
               "nodeType": "Block",
-              "src": "19293:136:0",
+              "src": "19362:136:0",
               "statements": [
                 {
                   "expression": {
@@ -9702,26 +9868,26 @@
                         "arguments": [
                           {
                             "expression": {
-                              "id": 769,
+                              "id": 779,
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
                               "referencedDeclaration": 4294967281,
-                              "src": "19410:3:0",
+                              "src": "19479:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
                                 "typeString": "msg"
                               }
                             },
-                            "id": 770,
+                            "id": 780,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
-                            "memberLocation": "19414:6:0",
+                            "memberLocation": "19483:6:0",
                             "memberName": "sender",
                             "nodeType": "MemberAccess",
-                            "src": "19410:10:0",
+                            "src": "19479:10:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
@@ -9735,27 +9901,27 @@
                               "typeString": "address"
                             }
                           ],
-                          "id": 768,
+                          "id": 778,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-                          "src": "19402:8:0",
+                          "src": "19471:8:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_payable_$",
                             "typeString": "type(address payable)"
                           },
                           "typeName": {
-                            "id": 767,
+                            "id": 777,
                             "name": "address",
                             "nodeType": "ElementaryTypeName",
-                            "src": "19402:8:0",
+                            "src": "19471:8:0",
                             "stateMutability": "payable",
                             "typeDescriptions": {}
                           }
                         },
-                        "id": 771,
+                        "id": 781,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -9764,7 +9930,7 @@
                         "nameLocations": [],
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "19402:19:0",
+                        "src": "19471:19:0",
                         "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_address_payable",
@@ -9780,33 +9946,33 @@
                         }
                       ],
                       "expression": {
-                        "id": 764,
+                        "id": 774,
                         "name": "ecommerceOrderPurchasing",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 749,
-                        "src": "19365:24:0",
+                        "referencedDeclaration": 759,
+                        "src": "19434:24:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_EcommerceOrderPurchasingAbstract_$422",
                           "typeString": "contract EcommerceOrderPurchasingAbstract"
                         }
                       },
-                      "id": 766,
+                      "id": 776,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberLocation": "19390:11:0",
+                      "memberLocation": "19459:11:0",
                       "memberName": "setRetailer",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 421,
-                      "src": "19365:36:0",
+                      "src": "19434:36:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_payable_$returns$__$",
                         "typeString": "function (address payable) external"
                       }
                     },
-                    "id": 772,
+                    "id": 782,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -9815,20 +9981,20 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "19365:57:0",
+                    "src": "19434:57:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 773,
+                  "id": 783,
                   "nodeType": "ExpressionStatement",
-                  "src": "19365:57:0"
+                  "src": "19434:57:0"
                 }
               ]
             },
-            "id": 775,
+            "id": 785,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
@@ -9836,28 +10002,28 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 762,
+              "id": 772,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "19290:2:0"
+              "src": "19359:2:0"
             },
             "returnParameters": {
-              "id": 763,
+              "id": 773,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "19293:0:0"
+              "src": "19362:0:0"
             },
-            "scope": 870,
-            "src": "19279:150:0",
+            "scope": 880,
+            "src": "19348:150:0",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 787,
+              "id": 797,
               "nodeType": "Block",
-              "src": "19692:62:0",
+              "src": "19761:62:0",
               "statements": [
                 {
                   "expression": {
@@ -9865,33 +10031,33 @@
                     "expression": {
                       "argumentTypes": [],
                       "expression": {
-                        "id": 783,
+                        "id": 793,
                         "name": "ecommerceOrderPurchasing",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 749,
-                        "src": "19709:24:0",
+                        "referencedDeclaration": 759,
+                        "src": "19778:24:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_EcommerceOrderPurchasingAbstract_$422",
                           "typeString": "contract EcommerceOrderPurchasingAbstract"
                         }
                       },
-                      "id": 784,
+                      "id": 794,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberLocation": "19734:11:0",
+                      "memberLocation": "19803:11:0",
                       "memberName": "getProducts",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 387,
-                      "src": "19709:36:0",
+                      "src": "19778:36:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$__$returns$_t_array$_t_struct$_Product_$280_memory_ptr_$3_memory_ptr_$",
                         "typeString": "function () view external returns (struct Products.Product memory[3] memory)"
                       }
                     },
-                    "id": 785,
+                    "id": 795,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -9900,47 +10066,47 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "19709:38:0",
+                    "src": "19778:38:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_struct$_Product_$280_memory_ptr_$3_memory_ptr",
                       "typeString": "struct Products.Product memory[3] memory"
                     }
                   },
-                  "functionReturnParameters": 782,
-                  "id": 786,
+                  "functionReturnParameters": 792,
+                  "id": 796,
                   "nodeType": "Return",
-                  "src": "19702:45:0"
+                  "src": "19771:45:0"
                 }
               ]
             },
             "functionSelector": "c29b2f20",
-            "id": 788,
+            "id": 798,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getProducts",
-            "nameLocation": "19638:11:0",
+            "nameLocation": "19707:11:0",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 776,
+              "id": 786,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "19649:2:0"
+              "src": "19718:2:0"
             },
             "returnParameters": {
-              "id": 782,
+              "id": 792,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 781,
+                  "id": 791,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 788,
-                  "src": "19673:17:0",
+                  "scope": 798,
+                  "src": "19742:17:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -9949,36 +10115,36 @@
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 778,
+                      "id": 788,
                       "nodeType": "UserDefinedTypeName",
                       "pathNode": {
-                        "id": 777,
+                        "id": 787,
                         "name": "Product",
                         "nameLocations": [
-                          "19673:7:0"
+                          "19742:7:0"
                         ],
                         "nodeType": "IdentifierPath",
                         "referencedDeclaration": 280,
-                        "src": "19673:7:0"
+                        "src": "19742:7:0"
                       },
                       "referencedDeclaration": 280,
-                      "src": "19673:7:0",
+                      "src": "19742:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_Product_$280_storage_ptr",
                         "typeString": "struct Products.Product"
                       }
                     },
-                    "id": 780,
+                    "id": 790,
                     "length": {
                       "hexValue": "33",
-                      "id": 779,
+                      "id": 789,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
                       "kind": "number",
                       "lValueRequested": false,
                       "nodeType": "Literal",
-                      "src": "19681:1:0",
+                      "src": "19750:1:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_rational_3_by_1",
                         "typeString": "int_const 3"
@@ -9986,7 +10152,7 @@
                       "value": "3"
                     },
                     "nodeType": "ArrayTypeName",
-                    "src": "19673:10:0",
+                    "src": "19742:10:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_array$_t_struct$_Product_$280_storage_$3_storage_ptr",
                       "typeString": "struct Products.Product[3]"
@@ -9995,34 +10161,34 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "19672:19:0"
+              "src": "19741:19:0"
             },
-            "scope": 870,
-            "src": "19629:125:0",
+            "scope": 880,
+            "src": "19698:125:0",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 818,
+              "id": 828,
               "nodeType": "Block",
-              "src": "20100:514:0",
+              "src": "20169:514:0",
               "statements": [
                 {
                   "assignments": [
-                    796
+                    806
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 796,
+                      "id": 806,
                       "mutability": "mutable",
                       "name": "message",
-                      "nameLocation": "20413:7:0",
+                      "nameLocation": "20482:7:0",
                       "nodeType": "VariableDeclaration",
-                      "scope": 818,
-                      "src": "20399:21:0",
+                      "scope": 828,
+                      "src": "20468:21:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -10030,10 +10196,10 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 795,
+                        "id": 805,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
-                        "src": "20399:6:0",
+                        "src": "20468:6:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage_ptr",
                           "typeString": "string"
@@ -10042,16 +10208,16 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 811,
+                  "id": 821,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 802,
+                        "id": 812,
                         "name": "productId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 790,
-                        "src": "20507:9:0",
+                        "referencedDeclaration": 800,
+                        "src": "20576:9:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
@@ -10059,26 +10225,26 @@
                       },
                       {
                         "expression": {
-                          "id": 803,
+                          "id": 813,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 4294967281,
-                          "src": "20518:3:0",
+                          "src": "20587:3:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 804,
+                        "id": 814,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
-                        "memberLocation": "20522:5:0",
+                        "memberLocation": "20591:5:0",
                         "memberName": "value",
                         "nodeType": "MemberAccess",
-                        "src": "20518:9:0",
+                        "src": "20587:9:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -10088,26 +10254,26 @@
                         "arguments": [
                           {
                             "expression": {
-                              "id": 807,
+                              "id": 817,
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
                               "referencedDeclaration": 4294967281,
-                              "src": "20537:3:0",
+                              "src": "20606:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
                                 "typeString": "msg"
                               }
                             },
-                            "id": 808,
+                            "id": 818,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
-                            "memberLocation": "20541:6:0",
+                            "memberLocation": "20610:6:0",
                             "memberName": "sender",
                             "nodeType": "MemberAccess",
-                            "src": "20537:10:0",
+                            "src": "20606:10:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
@@ -10121,27 +10287,27 @@
                               "typeString": "address"
                             }
                           ],
-                          "id": 806,
+                          "id": 816,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
                           "lValueRequested": false,
                           "nodeType": "ElementaryTypeNameExpression",
-                          "src": "20529:8:0",
+                          "src": "20598:8:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_type$_t_address_payable_$",
                             "typeString": "type(address payable)"
                           },
                           "typeName": {
-                            "id": 805,
+                            "id": 815,
                             "name": "address",
                             "nodeType": "ElementaryTypeName",
-                            "src": "20529:8:0",
+                            "src": "20598:8:0",
                             "stateMutability": "payable",
                             "typeDescriptions": {}
                           }
                         },
-                        "id": 809,
+                        "id": 819,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -10150,7 +10316,7 @@
                         "nameLocations": [],
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "20529:19:0",
+                        "src": "20598:19:0",
                         "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_address_payable",
@@ -10189,33 +10355,33 @@
                           }
                         ],
                         "expression": {
-                          "id": 797,
+                          "id": 807,
                           "name": "ecommerceOrderPurchasing",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 749,
-                          "src": "20423:24:0",
+                          "referencedDeclaration": 759,
+                          "src": "20492:24:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_EcommerceOrderPurchasingAbstract_$422",
                             "typeString": "contract EcommerceOrderPurchasingAbstract"
                           }
                         },
-                        "id": 798,
+                        "id": 808,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
-                        "memberLocation": "20448:10:0",
+                        "memberLocation": "20517:10:0",
                         "memberName": "placeOrder",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 398,
-                        "src": "20423:35:0",
+                        "src": "20492:35:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$_t_uint256_$_t_address_payable_$returns$_t_string_memory_ptr_$",
                           "typeString": "function (string memory,uint256,address payable) payable external returns (string memory)"
                         }
                       },
-                      "id": 801,
+                      "id": 811,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -10227,39 +10393,39 @@
                       "options": [
                         {
                           "expression": {
-                            "id": 799,
+                            "id": 809,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 4294967281,
-                            "src": "20483:3:0",
+                            "src": "20552:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 800,
+                          "id": 810,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
-                          "memberLocation": "20487:5:0",
+                          "memberLocation": "20556:5:0",
                           "memberName": "value",
                           "nodeType": "MemberAccess",
-                          "src": "20483:9:0",
+                          "src": "20552:9:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         }
                       ],
-                      "src": "20423:83:0",
+                      "src": "20492:83:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$_t_uint256_$_t_address_payable_$returns$_t_string_memory_ptr_$value",
                         "typeString": "function (string memory,uint256,address payable) payable external returns (string memory)"
                       }
                     },
-                    "id": 810,
+                    "id": 820,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -10268,7 +10434,7 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "20423:126:0",
+                    "src": "20492:126:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_memory_ptr",
@@ -10276,18 +10442,18 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "20399:150:0"
+                  "src": "20468:150:0"
                 },
                 {
                   "eventCall": {
                     "arguments": [
                       {
-                        "id": 813,
+                        "id": 823,
                         "name": "message",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 796,
-                        "src": "20575:7:0",
+                        "referencedDeclaration": 806,
+                        "src": "20644:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
@@ -10301,18 +10467,18 @@
                           "typeString": "string memory"
                         }
                       ],
-                      "id": 812,
+                      "id": 822,
                       "name": "PlaceOrder",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 753,
-                      "src": "20564:10:0",
+                      "referencedDeclaration": 763,
+                      "src": "20633:10:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (string memory)"
                       }
                     },
-                    "id": 814,
+                    "id": 824,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -10321,58 +10487,58 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "20564:19:0",
+                    "src": "20633:19:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 815,
+                  "id": 825,
                   "nodeType": "EmitStatement",
-                  "src": "20559:24:0"
+                  "src": "20628:24:0"
                 },
                 {
                   "expression": {
-                    "id": 816,
+                    "id": 826,
                     "name": "message",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 796,
-                    "src": "20600:7:0",
+                    "referencedDeclaration": 806,
+                    "src": "20669:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_memory_ptr",
                       "typeString": "string memory"
                     }
                   },
-                  "functionReturnParameters": 794,
-                  "id": 817,
+                  "functionReturnParameters": 804,
+                  "id": 827,
                   "nodeType": "Return",
-                  "src": "20593:14:0"
+                  "src": "20662:14:0"
                 }
               ]
             },
             "functionSelector": "453217f8",
-            "id": 819,
+            "id": 829,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "placeOrder",
-            "nameLocation": "20009:10:0",
+            "nameLocation": "20078:10:0",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 791,
+              "id": 801,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 790,
+                  "id": 800,
                   "mutability": "mutable",
                   "name": "productId",
-                  "nameLocation": "20034:9:0",
+                  "nameLocation": "20103:9:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 819,
-                  "src": "20020:23:0",
+                  "scope": 829,
+                  "src": "20089:23:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -10380,10 +10546,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 789,
+                    "id": 799,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "20020:6:0",
+                    "src": "20089:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -10392,21 +10558,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "20019:25:0"
+              "src": "20088:25:0"
             },
             "returnParameters": {
-              "id": 794,
+              "id": 804,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 793,
+                  "id": 803,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 819,
-                  "src": "20081:13:0",
+                  "scope": 829,
+                  "src": "20150:13:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -10414,10 +10580,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 792,
+                    "id": 802,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "20081:6:0",
+                    "src": "20150:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -10426,34 +10592,34 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "20080:15:0"
+              "src": "20149:15:0"
             },
-            "scope": 870,
-            "src": "20000:614:0",
+            "scope": 880,
+            "src": "20069:614:0",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 842,
+              "id": 852,
               "nodeType": "Block",
-              "src": "21015:453:0",
+              "src": "21084:453:0",
               "statements": [
                 {
                   "assignments": [
-                    827
+                    837
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 827,
+                      "id": 837,
                       "mutability": "mutable",
                       "name": "message",
-                      "nameLocation": "21329:7:0",
+                      "nameLocation": "21398:7:0",
                       "nodeType": "VariableDeclaration",
-                      "scope": 842,
-                      "src": "21315:21:0",
+                      "scope": 852,
+                      "src": "21384:21:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -10461,10 +10627,10 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 826,
+                        "id": 836,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
-                        "src": "21315:6:0",
+                        "src": "21384:6:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage_ptr",
                           "typeString": "string"
@@ -10473,16 +10639,16 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 835,
+                  "id": 845,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 833,
+                        "id": 843,
                         "name": "orderID",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 821,
-                        "src": "21394:7:0",
+                        "referencedDeclaration": 831,
+                        "src": "21463:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
@@ -10504,33 +10670,33 @@
                           }
                         ],
                         "expression": {
-                          "id": 828,
+                          "id": 838,
                           "name": "ecommerceOrderPurchasing",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 749,
-                          "src": "21339:24:0",
+                          "referencedDeclaration": 759,
+                          "src": "21408:24:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_EcommerceOrderPurchasingAbstract_$422",
                             "typeString": "contract EcommerceOrderPurchasingAbstract"
                           }
                         },
-                        "id": 829,
+                        "id": 839,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
-                        "memberLocation": "21364:11:0",
+                        "memberLocation": "21433:11:0",
                         "memberName": "cancelOrder",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 405,
-                        "src": "21339:36:0",
+                        "src": "21408:36:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$returns$_t_string_memory_ptr_$",
                           "typeString": "function (string memory) payable external returns (string memory)"
                         }
                       },
-                      "id": 832,
+                      "id": 842,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -10542,39 +10708,39 @@
                       "options": [
                         {
                           "expression": {
-                            "id": 830,
+                            "id": 840,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 4294967281,
-                            "src": "21383:3:0",
+                            "src": "21452:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 831,
+                          "id": 841,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
-                          "memberLocation": "21387:5:0",
+                          "memberLocation": "21456:5:0",
                           "memberName": "value",
                           "nodeType": "MemberAccess",
-                          "src": "21383:9:0",
+                          "src": "21452:9:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         }
                       ],
-                      "src": "21339:54:0",
+                      "src": "21408:54:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$returns$_t_string_memory_ptr_$value",
                         "typeString": "function (string memory) payable external returns (string memory)"
                       }
                     },
-                    "id": 834,
+                    "id": 844,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -10583,7 +10749,7 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "21339:63:0",
+                    "src": "21408:63:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_memory_ptr",
@@ -10591,18 +10757,18 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "21315:87:0"
+                  "src": "21384:87:0"
                 },
                 {
                   "eventCall": {
                     "arguments": [
                       {
-                        "id": 837,
+                        "id": 847,
                         "name": "message",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 827,
-                        "src": "21429:7:0",
+                        "referencedDeclaration": 837,
+                        "src": "21498:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
@@ -10616,18 +10782,18 @@
                           "typeString": "string memory"
                         }
                       ],
-                      "id": 836,
+                      "id": 846,
                       "name": "CancelOrder",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 757,
-                      "src": "21417:11:0",
+                      "referencedDeclaration": 767,
+                      "src": "21486:11:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (string memory)"
                       }
                     },
-                    "id": 838,
+                    "id": 848,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -10636,58 +10802,58 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "21417:20:0",
+                    "src": "21486:20:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 839,
+                  "id": 849,
                   "nodeType": "EmitStatement",
-                  "src": "21412:25:0"
+                  "src": "21481:25:0"
                 },
                 {
                   "expression": {
-                    "id": 840,
+                    "id": 850,
                     "name": "message",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 827,
-                    "src": "21454:7:0",
+                    "referencedDeclaration": 837,
+                    "src": "21523:7:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_memory_ptr",
                       "typeString": "string memory"
                     }
                   },
-                  "functionReturnParameters": 825,
-                  "id": 841,
+                  "functionReturnParameters": 835,
+                  "id": 851,
                   "nodeType": "Return",
-                  "src": "21447:14:0"
+                  "src": "21516:14:0"
                 }
               ]
             },
             "functionSelector": "c2558ffd",
-            "id": 843,
+            "id": 853,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "cancelOrder",
-            "nameLocation": "20925:11:0",
+            "nameLocation": "20994:11:0",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 822,
+              "id": 832,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 821,
+                  "id": 831,
                   "mutability": "mutable",
                   "name": "orderID",
-                  "nameLocation": "20951:7:0",
+                  "nameLocation": "21020:7:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 843,
-                  "src": "20937:21:0",
+                  "scope": 853,
+                  "src": "21006:21:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -10695,10 +10861,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 820,
+                    "id": 830,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "20937:6:0",
+                    "src": "21006:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -10707,21 +10873,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "20936:23:0"
+              "src": "21005:23:0"
             },
             "returnParameters": {
-              "id": 825,
+              "id": 835,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 824,
+                  "id": 834,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 843,
-                  "src": "20996:13:0",
+                  "scope": 853,
+                  "src": "21065:13:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -10729,10 +10895,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 823,
+                    "id": 833,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "20996:6:0",
+                    "src": "21065:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -10741,35 +10907,35 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "20995:15:0"
+              "src": "21064:15:0"
             },
-            "scope": 870,
-            "src": "20916:552:0",
+            "scope": 880,
+            "src": "20985:552:0",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 868,
+              "id": 878,
               "nodeType": "Block",
-              "src": "21868:516:0",
+              "src": "21937:516:0",
               "statements": [
                 {
                   "assignments": [
-                    851,
+                    861,
                     null
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 851,
+                      "id": 861,
                       "mutability": "mutable",
                       "name": "refundMessage",
-                      "nameLocation": "22183:13:0",
+                      "nameLocation": "22252:13:0",
                       "nodeType": "VariableDeclaration",
-                      "scope": 868,
-                      "src": "22169:27:0",
+                      "scope": 878,
+                      "src": "22238:27:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -10777,10 +10943,10 @@
                         "typeString": "string"
                       },
                       "typeName": {
-                        "id": 850,
+                        "id": 860,
                         "name": "string",
                         "nodeType": "ElementaryTypeName",
-                        "src": "22169:6:0",
+                        "src": "22238:6:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_storage_ptr",
                           "typeString": "string"
@@ -10790,16 +10956,16 @@
                     },
                     null
                   ],
-                  "id": 861,
+                  "id": 871,
                   "initialValue": {
                     "arguments": [
                       {
-                        "id": 857,
+                        "id": 867,
                         "name": "orderID",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 845,
-                        "src": "22287:7:0",
+                        "referencedDeclaration": 855,
+                        "src": "22356:7:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
@@ -10807,26 +10973,26 @@
                       },
                       {
                         "expression": {
-                          "id": 858,
+                          "id": 868,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 4294967281,
-                          "src": "22296:3:0",
+                          "src": "22365:3:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 859,
+                        "id": 869,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
-                        "memberLocation": "22300:5:0",
+                        "memberLocation": "22369:5:0",
                         "memberName": "value",
                         "nodeType": "MemberAccess",
-                        "src": "22296:9:0",
+                        "src": "22365:9:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
@@ -10856,33 +11022,33 @@
                           }
                         ],
                         "expression": {
-                          "id": 852,
+                          "id": 862,
                           "name": "ecommerceOrderPurchasing",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 749,
-                          "src": "22202:24:0",
+                          "referencedDeclaration": 759,
+                          "src": "22271:24:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_EcommerceOrderPurchasingAbstract_$422",
                             "typeString": "contract EcommerceOrderPurchasingAbstract"
                           }
                         },
-                        "id": 853,
+                        "id": 863,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
-                        "memberLocation": "22227:11:0",
+                        "memberLocation": "22296:11:0",
                         "memberName": "issueRefund",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 416,
-                        "src": "22202:36:0",
+                        "src": "22271:36:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_bool_$",
                           "typeString": "function (string memory,uint256) payable external returns (string memory,bool)"
                         }
                       },
-                      "id": 856,
+                      "id": 866,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -10894,39 +11060,39 @@
                       "options": [
                         {
                           "expression": {
-                            "id": 854,
+                            "id": 864,
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 4294967281,
-                            "src": "22263:3:0",
+                            "src": "22332:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
                             }
                           },
-                          "id": 855,
+                          "id": 865,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
-                          "memberLocation": "22267:5:0",
+                          "memberLocation": "22336:5:0",
                           "memberName": "value",
                           "nodeType": "MemberAccess",
-                          "src": "22263:9:0",
+                          "src": "22332:9:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
                             "typeString": "uint256"
                           }
                         }
                       ],
-                      "src": "22202:84:0",
+                      "src": "22271:84:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$_t_uint256_$returns$_t_string_memory_ptr_$_t_bool_$value",
                         "typeString": "function (string memory,uint256) payable external returns (string memory,bool)"
                       }
                     },
-                    "id": 860,
+                    "id": 870,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -10935,7 +11101,7 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "22202:104:0",
+                    "src": "22271:104:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$_t_string_memory_ptr_$_t_bool_$",
@@ -10943,18 +11109,18 @@
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "22168:138:0"
+                  "src": "22237:138:0"
                 },
                 {
                   "eventCall": {
                     "arguments": [
                       {
-                        "id": 863,
+                        "id": 873,
                         "name": "refundMessage",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 851,
-                        "src": "22333:13:0",
+                        "referencedDeclaration": 861,
+                        "src": "22402:13:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory_ptr",
                           "typeString": "string memory"
@@ -10968,18 +11134,18 @@
                           "typeString": "string memory"
                         }
                       ],
-                      "id": 862,
+                      "id": 872,
                       "name": "IssueRefund",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 761,
-                      "src": "22321:11:0",
+                      "referencedDeclaration": 771,
+                      "src": "22390:11:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (string memory)"
                       }
                     },
-                    "id": 864,
+                    "id": 874,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -10988,58 +11154,58 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "22321:26:0",
+                    "src": "22390:26:0",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 865,
+                  "id": 875,
                   "nodeType": "EmitStatement",
-                  "src": "22316:31:0"
+                  "src": "22385:31:0"
                 },
                 {
                   "expression": {
-                    "id": 866,
+                    "id": 876,
                     "name": "refundMessage",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 851,
-                    "src": "22364:13:0",
+                    "referencedDeclaration": 861,
+                    "src": "22433:13:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_memory_ptr",
                       "typeString": "string memory"
                     }
                   },
-                  "functionReturnParameters": 849,
-                  "id": 867,
+                  "functionReturnParameters": 859,
+                  "id": 877,
                   "nodeType": "Return",
-                  "src": "22357:20:0"
+                  "src": "22426:20:0"
                 }
               ]
             },
             "functionSelector": "2b75bbc2",
-            "id": 869,
+            "id": 879,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "issueRefund",
-            "nameLocation": "21778:11:0",
+            "nameLocation": "21847:11:0",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 846,
+              "id": 856,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 845,
+                  "id": 855,
                   "mutability": "mutable",
                   "name": "orderID",
-                  "nameLocation": "21804:7:0",
+                  "nameLocation": "21873:7:0",
                   "nodeType": "VariableDeclaration",
-                  "scope": 869,
-                  "src": "21790:21:0",
+                  "scope": 879,
+                  "src": "21859:21:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -11047,10 +11213,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 844,
+                    "id": 854,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "21790:6:0",
+                    "src": "21859:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -11059,21 +11225,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "21789:23:0"
+              "src": "21858:23:0"
             },
             "returnParameters": {
-              "id": 849,
+              "id": 859,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 848,
+                  "id": 858,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 869,
-                  "src": "21849:13:0",
+                  "scope": 879,
+                  "src": "21918:13:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -11081,10 +11247,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 847,
+                    "id": 857,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "21849:6:0",
+                    "src": "21918:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -11093,21 +11259,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "21848:15:0"
+              "src": "21917:15:0"
             },
-            "scope": 870,
-            "src": "21769:615:0",
+            "scope": 880,
+            "src": "21838:615:0",
             "stateMutability": "payable",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 871,
-        "src": "18837:3549:0",
+        "scope": 881,
+        "src": "18906:3549:0",
         "usedErrors": []
       }
     ],
-    "src": "1809:20578:0"
+    "src": "1809:20647:0"
   },
   "compiler": {
     "name": "solc",
@@ -11115,7 +11281,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-04-03T07:06:11.956Z",
+  "updatedAt": "2024-04-06T02:45:25.269Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -10,7 +10,7 @@ function App() {
     const [myAccount, setMyAccount] = useState("");
     const [products, setProducts] = useState([]);
     const [contract, setContract] = useState({});
-    const [currentOrderId, setCurrentOrderId] = useState("");
+    const [currentOrder, setCurrentOrder] = useState(null);
     const eventNameByFunction = {
         placeOrder: "PlaceOrder",
         cancelOrder: "CancelOrder",
@@ -60,22 +60,37 @@ function App() {
         // Send a transaction
         try {
             const response = await contract.methods.placeOrder(productId).send({from: myAccount, value: value});
+            console.log(response);
             const message = getReturnMessage(response, eventNameByFunction.placeOrder);
             alert(message);
 
             // You have successfully purchased an order with id order_id_6
             // get the order_id from the message
             const components = message.split(" ");
-            setCurrentOrderId(components[components.length - 1]);
+            setCurrentOrder({id: components[components.length - 1], value: value});
         } catch (error) {
             alert(error);
         }
     }
 
-    const cancelOrder = async (orderId) => {
+    const cancelOrder = async (currentOrder) => {
         try {
-            const response = await contract.methods.cancelOrder(orderId).send({from: myAccount});
+            const response = await contract.methods.cancelOrder(currentOrder.id).send({from: myAccount, value: 0});
             const message = getReturnMessage(response, eventNameByFunction.cancelOrder);
+            // if (message === "You successfully canceled your order") {
+            //     setCurrentOrder(null)
+            // }
+            alert(message);
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    const issueRefund = async (currentOrder) => {
+        try {
+            const response = await contract.methods.issueRefund(currentOrder.id).send({from: myAccount, value:currentOrder.value});
+            console.log("response issueRefund", response);
+            const message = getReturnMessage(response, eventNameByFunction.issueRefund);
             alert(message);
         } catch (error) {
             alert(error);
@@ -114,8 +129,12 @@ function App() {
                                 )
                             }
                             {
-                                currentOrderId && (
-                                    <p>You have successfully purchased an order with id {currentOrderId}</p>
+                                currentOrder && (
+                                    <div>
+                                        <p>Current order: {currentOrder.id}</p>
+                                        <button onClick={() => issueRefund(currentOrder)}>Issue Refund</button>
+                                        <button onClick={() => cancelOrder(currentOrder)}>Cancel Order</button>
+                                    </div>
                                 )
                             }
                         </div>
