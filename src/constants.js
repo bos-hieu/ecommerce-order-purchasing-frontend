@@ -12,9 +12,9 @@ export const DEFAULT_CURRENT_ORDER = {
 
 // This constant is used to store the event name by the function in the smart contract
 export const EVENT_NAME_BY_FUNCTION = {
-    placeOrder: "OrderPlaced",
-    issueRefund: "RefundIssued",
-    cancelOrder: "OrderCancelled",
+    placeOrder: "PlaceOrder",
+    cancelOrder: "CancelOrder",
+    issueRefund: "IssueRefund"
 };
 
 // This constant is used to store the success message for the user
