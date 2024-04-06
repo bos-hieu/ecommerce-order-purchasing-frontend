@@ -3,24 +3,21 @@ import "./styles/Product.css"
 import {useState, useEffect} from "react";
 import Web3 from "web3";
 import ContractArtifact from "./contracts/EcommerceOrderPurchasing.json";
-import Product from "./components/Product.js";
+import ListProducts from "./components/ListProducts";
+import CurrentOrder from "./components/CurrentOrder";
+import {DEFAULT_CURRENT_ORDER, EVENT_NAME_BY_FUNCTION, SUCCESS_MESSAGE} from "./constants";
 
 function App() {
     const [msg, setMsg] = useState("");
     const [myAccount, setMyAccount] = useState("");
     const [products, setProducts] = useState([]);
     const [contract, setContract] = useState({});
-    const [currentOrder, setCurrentOrder] = useState(null);
-    const eventNameByFunction = {
-        placeOrder: "PlaceOrder",
-        cancelOrder: "CancelOrder",
-        issueRefund: "IssueRefund"
-    }
+    const [currentOrder, setCurrentOrder] = useState(DEFAULT_CURRENT_ORDER);
 
     const checkWallet = async () => {
         // check if MetaMask is installed in the browser
         if (window.ethereum) {
-            setMsg("Connect to MetaMask. Click getProducts to see the products.");
+            setMsg("Connected to MetaMask. Click Get Products button to see the list of product.");
         } else {
             setMsg("Please Install MetaMask");
         }
@@ -51,53 +48,101 @@ function App() {
         }
     }
 
+    // getProducts is a function that execute the getProducts function in the smart contract
     const getProducts = async () => {
         const products = await contract.methods.getProducts().call();
         setProducts(products);
     }
 
-    const placeOrder = async (productId, value) => {
-        // Send a transaction
+    //placeOrder is a function that execute the placeOrder function in the smart contract
+    // @param productId: the id of the product to be purchased
+    // @param amount: the amount of the order, in this case, it is the price of the product
+    const placeOrder = async (productId, amount) => {
         try {
-            const response = await contract.methods.placeOrder(productId).send({from: myAccount, value: value});
-            console.log(response);
-            const message = getReturnMessage(response, eventNameByFunction.placeOrder);
+            // call the placeOrder function in the smart contract
+            const response = await contract.methods.placeOrder(productId).send({from: myAccount, value: amount});
+
+            // get the message from the response
+            const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.placeOrder);
+
+            // alert the response message to the user
             alert(message);
 
-            // You have successfully purchased an order with id order_id_6
             // get the order_id from the message
-            const components = message.split(" ");
-            setCurrentOrder({id: components[components.length - 1], value: value});
+            const messageArrays = message.split(" ");
+
+            // get the last element of the messageArrays
+            const orderId = messageArrays[messageArrays.length - 1];
+
+            // create a new order object
+            const newOrder = {
+                id: orderId,
+                value: amount,
+                refunded: false,
+                cancelled: false
+            };
+
+            // set the new order to the current order
+            setCurrentOrder(newOrder);
         } catch (error) {
             alert(error);
         }
     }
 
+    // cancelOrder is a function that execute the cancelOrder function in the smart contract
+    // @param currentOrder: the current order to be canceled
     const cancelOrder = async (currentOrder) => {
         try {
-            const response = await contract.methods.cancelOrder(currentOrder.id).send({from: myAccount, value: 0});
-            const message = getReturnMessage(response, eventNameByFunction.cancelOrder);
-            // if (message === "You successfully canceled your order") {
-            //     setCurrentOrder(null)
-            // }
+            // call the cancelOrder function in the smart contract
+            const response = await contract.methods.cancelOrder(currentOrder.id).send({from: myAccount});
+
+            // get the message from the response
+            const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.cancelOrder);
+
+            // if the message is "You successfully canceled your order", set the current order to be cancelled.
+            if (message === SUCCESS_MESSAGE.cancelOrder) {
+                currentOrder.canceled = true;
+                setCurrentOrder(currentOrder)
+            }
+
+            // alert the response message to the user
             alert(message);
         } catch (error) {
             alert(error);
         }
     }
 
+    // issueRefund is a function that execute the issueRefund function in the smart contract
+    // @param currentOrder: the current order to be refunded
     const issueRefund = async (currentOrder) => {
         try {
-            const response = await contract.methods.issueRefund(currentOrder.id).send({from: myAccount, value:currentOrder.value});
-            console.log("response issueRefund", response);
-            const message = getReturnMessage(response, eventNameByFunction.issueRefund);
+            // call the issueRefund function in the smart contract
+            const response = await contract.methods.issueRefund(currentOrder.id).send({
+                from: myAccount,
+                value: currentOrder.value
+            });
+
+            // get the message from the response
+            const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.issueRefund);
+
+            // if the message is "You successfully refunded your payment", set the current order to be refunded.
+            if (message === SUCCESS_MESSAGE.issueRefund) {
+                currentOrder.refunded = true;
+                setCurrentOrder(currentOrder);
+            }
+
+            // alert the response message to the user
             alert(message);
         } catch (error) {
             alert(error);
         }
     }
 
-    const getReturnMessage =  (response, eventName) => {
+    // getReturnMessage is a helper function that returns the message from the response of the smart contract
+    // @param response: the response from the smart contract
+    // @param eventName: the event name to get the return message
+    // @return the message from the response
+    const getReturnMessage = (response, eventName) => {
         return response.events[eventName].returnValues.message;
     }
 
@@ -107,42 +152,26 @@ function App() {
 
     return (
         <div className="App">
-            <p>
-                {/* If the Wallet is connected to an Account returns the message. Else show connect button*/}
-                {
-                    myAccount ? (
-                        <div>
-                            <p>{msg}</p>
-                            {
-                                products.length === 0 ? (
-                                    <button onClick={getProducts}>Get Products</button>
-                                ) : (
-                                    <div className="ListProducts">
-                                        {products.map((product) => (
-                                            <Product
-                                                product={product}
-                                                key={product.id}
-                                                placeOrder={placeOrder}
-                                            />
-                                        ))}
-                                    </div>
-                                )
-                            }
-                            {
-                                currentOrder && (
-                                    <div>
-                                        <p>Current order: {currentOrder.id}</p>
-                                        <button onClick={() => issueRefund(currentOrder)}>Issue Refund</button>
-                                        <button onClick={() => cancelOrder(currentOrder)}>Cancel Order</button>
-                                    </div>
-                                )
-                            }
-                        </div>
-                    ) : (
-                        <button onClick={readSmartContract}>Connect</button>
-                    )
-                }
-            </p>
+            <h1>Ecommerce Order Purchasing SmartContract</h1>
+            {
+                myAccount ? (
+                    <div>
+                        <p>{msg}</p>
+                        <ListProducts
+                            getProducts={getProducts}
+                            products={products}
+                            placeOrder={placeOrder}
+                        />
+                        <CurrentOrder
+                            currentOrder={currentOrder}
+                            issueRefund={issueRefund}
+                            cancelOrder={cancelOrder}
+                        />
+                    </div>
+                ) : (
+                    <button onClick={readSmartContract}>Connect To Metamask</button>
+                )
+            }
         </div>
     )
 }
