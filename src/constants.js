@@ -47,7 +47,7 @@ export const ETHEREUM_SYMBOL = "ETH";
 // This constant is used to store the decimal value for Ethereum
 export const ETHEREUM_DECIMAL = 1e18;
 
-export const APP_TITLE = "Ecommerce Order Purchasing SmartContract";
+export const APP_TITLE = "Ecommerce Order Purchasing Smart Contract";
 
 // This constant is used to store the description for the list of products component
 export const LIST_PRODUCT_DESCRIPTION = "<i>(*) Click the <b>Place Order</b> button to place an order for the product.</i>";
