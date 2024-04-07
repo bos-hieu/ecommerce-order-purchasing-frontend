@@ -5,7 +5,14 @@ import Web3 from "web3";
 import ContractArtifact from "./contracts/EcommerceOrderPurchasing.json";
 import ListProducts from "./components/ListProducts";
 import CurrentOrder from "./components/CurrentOrder";
-import {DEFAULT_CURRENT_ORDER, EVENT_NAME_BY_FUNCTION, SUCCESS_MESSAGE} from "./constants";
+import {
+    APP_TITLE,
+    CONNECT_TO_METAMASK_BUTTON,
+    DEFAULT_CURRENT_ORDER,
+    EVENT_NAME_BY_FUNCTION,
+    GET_PRODUCTS_DESCRIPTION,
+    SUCCESS_MESSAGE,
+} from "./constants";
 
 function App() {
     const [msg, setMsg] = useState("");
@@ -17,7 +24,7 @@ function App() {
     const checkWallet = async () => {
         // check if MetaMask is installed in the browser
         if (window.ethereum) {
-            setMsg("Connected to MetaMask. Click Get Products button to see the list of product.");
+            setMsg(GET_PRODUCTS_DESCRIPTION);
         } else {
             setMsg("Please Install MetaMask");
         }
@@ -89,29 +96,6 @@ function App() {
         }
     }
 
-    // cancelOrder is a function that execute the cancelOrder function in the smart contract
-    // @param currentOrder: the current order to be canceled
-    const cancelOrder = async (currentOrder) => {
-        try {
-            // call the cancelOrder function in the smart contract
-            const response = await contract.methods.cancelOrder(currentOrder.id).send({from: myAccount});
-
-            // get the message from the response
-            const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.cancelOrder);
-
-            // if the message is "You successfully canceled your order", set the current order to be cancelled.
-            if (message === SUCCESS_MESSAGE.cancelOrder) {
-                currentOrder.canceled = true;
-                setCurrentOrder(currentOrder)
-            }
-
-            // alert the response message to the user
-            alert(message);
-        } catch (error) {
-            alert(error);
-        }
-    }
-
     // issueRefund is a function that execute the issueRefund function in the smart contract
     // @param currentOrder: the current order to be refunded
     const issueRefund = async (currentOrder) => {
@@ -127,8 +111,37 @@ function App() {
 
             // if the message is "You successfully refunded your payment", set the current order to be refunded.
             if (message === SUCCESS_MESSAGE.issueRefund) {
-                currentOrder.refunded = true;
-                setCurrentOrder(currentOrder);
+                // create a new object with the refunded value
+                const updatedOrder = {...currentOrder, refunded: true};
+
+                // set the updated order to the current order
+                setCurrentOrder(updatedOrder);
+            }
+
+            // alert the response message to the user
+            alert(message);
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    // cancelOrder is a function that execute the cancelOrder function in the smart contract
+    // @param currentOrder: the current order to be canceled
+    const cancelOrder = async (currentOrder) => {
+        try {
+            // call the cancelOrder function in the smart contract
+            const response = await contract.methods.cancelOrder(currentOrder.id).send({from: myAccount});
+
+            // get the message from the response
+            const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.cancelOrder);
+
+            // if the message is "You successfully canceled your order", set the current order to be cancelled.
+            if (message === SUCCESS_MESSAGE.cancelOrder) {
+                // create a new object with the cancelled value
+                const updatedOrder = {...currentOrder, cancelled: true};
+
+                // set the updated order to the current order
+                setCurrentOrder(updatedOrder);
             }
 
             // alert the response message to the user
@@ -152,15 +165,22 @@ function App() {
 
     return (
         <div className="App">
-            <h1>Ecommerce Order Purchasing SmartContract</h1>
+            <h1>{APP_TITLE}</h1>
             {
                 myAccount ? (
                     <div>
-                        <p>{msg}</p>
+                        {
+                            products.length === 0 &&
+                            <p dangerouslySetInnerHTML={
+                                {__html: msg}
+                            }></p>
+                        }
+
                         <ListProducts
                             getProducts={getProducts}
                             products={products}
                             placeOrder={placeOrder}
+                            currentOrder={currentOrder}
                         />
                         <CurrentOrder
                             currentOrder={currentOrder}
@@ -169,7 +189,7 @@ function App() {
                         />
                     </div>
                 ) : (
-                    <button onClick={readSmartContract}>Connect To Metamask</button>
+                    <button onClick={readSmartContract}>{CONNECT_TO_METAMASK_BUTTON}</button>
                 )
             }
         </div>

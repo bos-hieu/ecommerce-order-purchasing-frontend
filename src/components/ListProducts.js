@@ -1,14 +1,32 @@
 import Product from "./Product";
+import {
+    GET_PRODUCTS_BUTTON,
+    LIST_PRODUCTS_TITLE,
+    LIST_PRODUCT_DESCRIPTION,
+} from "../constants";
 
-export default function ListProducts({products, placeOrder, getProducts}) {
+export default function ListProducts({products, placeOrder, getProducts, currentOrder}) {
+    // Check if the order have not been placed
+    const orderHaveNotBeenPlaced = currentOrder.id === "";
+
+    // listProductsHaveNotBeenGet Check if the products have not been get from the smart contract.
+    const listProductsHaveNotBeenGet = products.length === 0;
+
     return (
         <>
             {
-                products.length === 0 ? (
-                    <button onClick={getProducts}>Get Products</button>
+                listProductsHaveNotBeenGet ? (
+                    <button onClick={getProducts}>{GET_PRODUCTS_BUTTON}</button>
                 ) : (
                     <>
-                        <h3>List Products</h3>
+                        <h3>{LIST_PRODUCTS_TITLE}</h3>
+                        {
+                            orderHaveNotBeenPlaced && (
+                                <p dangerouslySetInnerHTML={
+                                    {__html: LIST_PRODUCT_DESCRIPTION}
+                                }/>
+                            )
+                        }
                         <div className="ListProducts">
                             {products.map((product) => (
                                 <Product

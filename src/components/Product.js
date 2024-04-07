@@ -1,7 +1,12 @@
+import {
+    ETHEREUM_DECIMAL,
+    ETHEREUM_SYMBOL,
+    PLACE_ORDER_BUTTON,
+} from "../constants";
+
 export default function Product({product, placeOrder}) {
     const {id, name, description, price, image} = product
-    const ethDecimal = 1e18;
-    const priceDisplay = price / ethDecimal;
+    const priceDisplay = price / ETHEREUM_DECIMAL;
     // change "image 1" to image_1
     const beautyImage = image.replace(/\s/g, "").toLowerCase();
 
@@ -18,11 +23,11 @@ export default function Product({product, placeOrder}) {
             <div className="Product-info">
                 <div className="Product-name">{name}</div>
                 <p className="Product-description">{description}</p>
-                <p className="Product-price">{priceDisplay} ETH</p>
+                <p className="Product-price">{priceDisplay} {ETHEREUM_SYMBOL}</p>
                 <button
                     onClick={() => placeOrder(id, price)}
                 >
-                    Place Order
+                    {PLACE_ORDER_BUTTON}
                 </button>
             </div>
             <div>
