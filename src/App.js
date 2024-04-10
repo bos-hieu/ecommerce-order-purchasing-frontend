@@ -1,9 +1,31 @@
 /*
+    @class: CCMP 603 - Introduction to Smart Contracts - Project - Frontend
+    @title: E-commerce Order Purchasing Smart Contract
+    @member: Le, Trung Hieu
+    @date: April 10, 2024
 
+    This is the frontend of the E-commerce Order Purchasing Smart Contract project.
+    It is built using React.js to interact with the smart contract.
+    The frontend allows the user to connect to MetaMask, get the list of products from the smart contract,
+    place an order, issue a refund, and cancel the order.
+
+    The frontend is divided into components:
+    - App.js: The main component of the frontend
+    - ListProducts.js: The component to display the list of products
+    - Product.js: The component to display the product details
+    - CurrentOrder.js: The component to display the current order status
+
+    All constants are stored in the constants.js file.
+    The artifacts of the smart contract are stored in the contracts folder.
+
+    I am looking forward to receiving your feedback. Thank you for your time and consideration.
 */
 import "./styles/App.css"
 import "./styles/Product.css"
-import {useState, useEffect} from "react";
+import {
+    useState,
+    useEffect,
+} from "react";
 import Web3 from "web3";
 import ContractArtifact from "./contracts/EcommerceOrderPurchasing.json";
 import ListProducts from "./components/ListProducts";
