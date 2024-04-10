@@ -1,3 +1,6 @@
+/*
+
+*/
 import "./styles/App.css"
 import "./styles/Product.css"
 import {useState, useEffect} from "react";
@@ -8,37 +11,69 @@ import CurrentOrder from "./components/CurrentOrder";
 import {
     APP_TITLE,
     CONNECT_TO_METAMASK_BUTTON,
+    CONNECTED_TO_METAMASK_DESCRIPTION,
     DEFAULT_CURRENT_ORDER,
     EVENT_NAME_BY_FUNCTION,
-    GET_PRODUCTS_DESCRIPTION,
+    PLEASE_INSTALL_METAMASK_DESCRIPTION,
     SUCCESS_MESSAGE,
+    SWITCH_TO_CUSTOMER_ACCOUNT_ALERT_MESSAGE,
+    SWITCH_TO_RETAILER_ACCOUNT_ALERT_MESSAGE_PREFIX,
 } from "./constants";
 
 function App() {
+    // msg is a state variable that stores the message to be displayed to the user
     const [msg, setMsg] = useState("");
+
+    // myAccount is a state variable that stores the current MetaMask account address
     const [myAccount, setMyAccount] = useState("");
+
+    // products is a state variable that stores the list of products
     const [products, setProducts] = useState([]);
+
+    // contract is a state variable that stores the smart contract object
     const [contract, setContract] = useState({});
+
+    // currentOrder is a state variable that stores the current order
     const [currentOrder, setCurrentOrder] = useState(DEFAULT_CURRENT_ORDER);
 
+    // retailerAccount is a state variable that stores the retailer account address
+    const [retailerAccount, setRetailerAccount] = useState("");
+
+    // checkWallet is a function that checks if the wallet is connected to the browser
     const checkWallet = async () => {
         // check if MetaMask is installed in the browser
         if (window.ethereum) {
-            setMsg(GET_PRODUCTS_DESCRIPTION);
+            setMsg(CONNECTED_TO_METAMASK_DESCRIPTION);
         } else {
-            setMsg("Please Install MetaMask");
+            setMsg(PLEASE_INSTALL_METAMASK_DESCRIPTION);
         }
     }
 
+    // checkAccount is a function that checks if the account is changed from MetaMask.
+    const checkAccount = async () => {
+        if (window.ethereum) {
+            // if the account is changed, update the account
+            window.ethereum.on('accountsChanged', function (accounts) {
+                // select the last used account, store it in state variable
+                setMyAccount(accounts[0]);
+            })
+        }
+    }
+
+    // isRetailerAccount is a function that checks if the current account is the retailer account
+    const isRetailerAccount = (currentAccount) => {
+        return currentAccount === retailerAccount;
+    }
+
+    // readSmartContract is a function that reads the smart contract
     const readSmartContract = async () => {
         if (window.ethereum) {
             // if MetaMask found, request connection to the Wallet Accounts (log in)
-            const account = await window.ethereum.request({method: "eth_requestAccounts"});
+            const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
 
             // select the last used account, store it in state variable
-            setMyAccount(account[0]);
+            setMyAccount(accounts[0]);
 
-            // Web.js
             // select the ABI and contract address from the Artifact
             const contractABI = ContractArtifact.abi;
             const contractAddress = ContractArtifact.networks[5777].address;
@@ -49,15 +84,23 @@ function App() {
             // Get the deployed contract as an object
             const EcommerceOrderPurchasingContract = new web3.eth.Contract(contractABI, contractAddress);
             setContract(EcommerceOrderPurchasingContract);
+
+            // get the retailer account
+            const retailer = await EcommerceOrderPurchasingContract.methods.getRetailer().call();
+            // Because the address from the contract is in sensitive case, but the address account from MetaMask is in lower case.
+            // So, we need to convert the retailer address to lower case.
+            setRetailerAccount(retailer.toLowerCase());
         } else {
-            // if no wallet
-            alert("Get MetaMask to connect");
+            alert(PLEASE_INSTALL_METAMASK_DESCRIPTION);
         }
     }
 
     // getProducts is a function that execute the getProducts function in the smart contract
     const getProducts = async () => {
+        // call the getProducts function in the smart contract
         const products = await contract.methods.getProducts().call();
+
+        // set the products to the state variable
         setProducts(products);
     }
 
@@ -66,6 +109,13 @@ function App() {
     // @param amount: the amount of the order, in this case, it is the price of the product
     const placeOrder = async (productId, amount) => {
         try {
+            // check if the current account is the retailer account
+            if (isRetailerAccount(myAccount)) {
+                // alert the user to switch to the customer account
+                alert(SWITCH_TO_CUSTOMER_ACCOUNT_ALERT_MESSAGE);
+                return;
+            }
+
             // call the placeOrder function in the smart contract
             const response = await contract.methods.placeOrder(productId).send({from: myAccount, value: amount});
 
@@ -85,14 +135,15 @@ function App() {
             const newOrder = {
                 id: orderId,
                 value: amount,
-                refunded: false,
-                cancelled: false
+                refunded: false, // set the refunded value to false
+                cancelled: false // set the cancelled value to false
             };
 
             // set the new order to the current order
             setCurrentOrder(newOrder);
         } catch (error) {
-            alert(error);
+            // alert the error message to the user
+            alert(getErrorMessage(error));
         }
     }
 
@@ -100,6 +151,13 @@ function App() {
     // @param currentOrder: the current order to be refunded
     const issueRefund = async (currentOrder) => {
         try {
+            // check if the current account is the retailer account
+            if (!isRetailerAccount(myAccount)) {
+                // alert the user to switch to the retailer account
+                alert(getSwitchToRetailerAccountAlertMessage());
+                return;
+            }
+
             // call the issueRefund function in the smart contract
             const response = await contract.methods.issueRefund(currentOrder.id).send({
                 from: myAccount,
@@ -121,7 +179,8 @@ function App() {
             // alert the response message to the user
             alert(message);
         } catch (error) {
-            alert(error);
+            // alert the error message to the user
+            alert(getErrorMessage(error));
         }
     }
 
@@ -129,6 +188,13 @@ function App() {
     // @param currentOrder: the current order to be canceled
     const cancelOrder = async (currentOrder) => {
         try {
+            // check if the current account is the retailer account
+            if (!isRetailerAccount(myAccount)) {
+                // alert the user to switch to the retailer account
+                alert(getSwitchToRetailerAccountAlertMessage());
+                return;
+            }
+
             // call the cancelOrder function in the smart contract
             const response = await contract.methods.cancelOrder(currentOrder.id).send({from: myAccount});
 
@@ -147,7 +213,8 @@ function App() {
             // alert the response message to the user
             alert(message);
         } catch (error) {
-            alert(error);
+            // alert the error message to the user
+            alert(getErrorMessage(error));
         }
     }
 
@@ -159,37 +226,76 @@ function App() {
         return response.events[eventName].returnValues.message;
     }
 
+    // getErrorMessage is a helper function that returns the error message
+    // @param error: the error that occurred
+    function getErrorMessage(error) {
+        // This is to check if the error is an object and has a message property
+        // Example: {code: 4001, message: 'MetaMask Tx Signature: User denied transaction signature.'}
+        if (typeof error === "object" && error.hasOwnProperty("message")) {
+            return error.message;
+        } else {
+            return error;
+        }
+    }
+
+    // getSwitchToRetailerAccountAlertMessage is a helper function that returns the message to switch to the retailer account
+    function getSwitchToRetailerAccountAlertMessage() {
+        return `${SWITCH_TO_RETAILER_ACCOUNT_ALERT_MESSAGE_PREFIX} ${retailerAccount}`;
+    }
+
     useEffect(() => {
+        // check if the wallet is connected
         checkWallet();
     }, []);
 
+    useEffect(() => {
+        // check if the account is changed from MetaMask
+        checkAccount();
+    })
+
     return (
         <div className="App">
+            {/* Display the title of the application */}
             <h1>{APP_TITLE}</h1>
             {
                 myAccount ? (
                     <div>
+                        {/* If the products have not been get, show message to get the products */}
                         {
                             products.length === 0 &&
-                            <p dangerouslySetInnerHTML={
-                                {__html: msg}
-                            }></p>
+                            <p
+                                dangerouslySetInnerHTML={
+                                    {
+                                        __html: msg,
+                                    }
+                                }
+                            />
                         }
 
+                        {/* Display the list of products */}
                         <ListProducts
                             getProducts={getProducts}
                             products={products}
                             placeOrder={placeOrder}
                             currentOrder={currentOrder}
+                            currentAccount={myAccount}
                         />
+
+                        {/* Display the current order */}
                         <CurrentOrder
                             currentOrder={currentOrder}
+                            currentAccount={myAccount}
                             issueRefund={issueRefund}
                             cancelOrder={cancelOrder}
                         />
                     </div>
                 ) : (
-                    <button onClick={readSmartContract}>{CONNECT_TO_METAMASK_BUTTON}</button>
+                    // If the account is not connected, show the "connect to MetaMask" button
+                    <button
+                        onClick={readSmartContract}
+                    >
+                        {CONNECT_TO_METAMASK_BUTTON}
+                    </button>
                 )
             }
         </div>

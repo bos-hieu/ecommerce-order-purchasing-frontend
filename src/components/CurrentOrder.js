@@ -1,3 +1,7 @@
+/*
+ This component is responsible for displaying the current order status.
+ It will display the title, the description by the status of the order, the order ID, and the issue refund and cancel order buttons.
+*/
 import {
     CANCEL_ORDER_BUTTON,
     CANCEL_ORDER_DESCRIPTION,
@@ -7,7 +11,14 @@ import {
     ISSUE_REFUND_DESCRIPTION,
 } from "../constants";
 
-export default function ({currentOrder, issueRefund, cancelOrder}) {
+// CurrentOrder component
+function CurrentOrder(
+    {
+        currentOrder, // The current order object
+        issueRefund, // The function to issue a refund
+        cancelOrder, // The function to cancel the order
+    },
+) {
     // Check if the order have been placed
     const orderHaveBeenPlaced = currentOrder.id !== "";
 
@@ -33,31 +44,62 @@ export default function ({currentOrder, issueRefund, cancelOrder}) {
         return ISSUE_REFUND_DESCRIPTION;
     }
 
+    // If the order have not been placed, do not show anything
+    if (!orderHaveBeenPlaced) {
+        return <></>;
+    }
+
+    // Display the current order
     return (
-        <>
-            {
-                orderHaveBeenPlaced && (
-                    <div>
-                        <h3>{CURRENT_ORDER_TITLE}</h3>
-                        <p dangerouslySetInnerHTML={
-                            {__html: getDescriptionByStatus()}
-                        }/>
-                        <div>
-                            <p>ID: <b>{currentOrder.id}</b></p>
-                            <div>
-                                {
-                                    canShowRefundButton &&
-                                    <button onClick={() => issueRefund(currentOrder)}>{ISSUE_REFUND_BUTTON}</button>
-                                }
-                                {
-                                    canShowCancelButton &&
-                                    <button onClick={() => cancelOrder(currentOrder)}>{CANCEL_ORDER_BUTTON}</button>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                )
-            }
-        </>
+        <div>
+            {/* Display the current order title */}
+            <h3>{CURRENT_ORDER_TITLE}</h3>
+
+            {/* Display the description by the status of the order */}
+            <p
+                dangerouslySetInnerHTML={
+                    {
+                        __html: getDescriptionByStatus(),
+                    }
+                }
+            />
+
+            <div>
+                {/* Display the order ID */}
+                <p>
+                    ID: <b>{currentOrder.id}</b>
+                </p>
+
+                {/* Display the issue refund and cancel order buttons */}
+                <div>
+                    {/* Display the issue refund button */}
+                    {
+                        canShowRefundButton &&
+                        (
+                            <button
+                                onClick={() => issueRefund(currentOrder)}
+                            >
+                                {ISSUE_REFUND_BUTTON}
+                            </button>
+                        )
+                    }
+
+                    {/* Display the cancel order button */}
+                    {
+                        canShowCancelButton &&
+                        (
+                            <button
+                                onClick={() => cancelOrder(currentOrder)}
+                            >
+                                {CANCEL_ORDER_BUTTON}
+                            </button>
+                        )
+                    }
+                </div>
+            </div>
+        </div>
     )
 }
+
+// Export the CurrentOrder component
+export default CurrentOrder;

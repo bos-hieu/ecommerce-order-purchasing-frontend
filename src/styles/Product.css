@@ -1,3 +1,7 @@
+/*
+This file contains the styles for the Product and ListProducts components.
+ */
+
 .ListProducts {
     display: flex;
     flex-wrap: wrap;
