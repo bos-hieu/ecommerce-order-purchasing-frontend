@@ -38,7 +38,7 @@ export const ETHEREUM_DECIMAL = 1e18;
 // region 2. Constants for titles
 
 // This constant is used to store the app title
-export const APP_TITLE = "Ecommerce Order Purchasing Smart Contract";
+export const APP_TITLE = "E-commerce Order Purchasing Smart Contract";
 
 // This constant is used to store the title for the current order
 export const CURRENT_ORDER_TITLE = "Current purchased order";
