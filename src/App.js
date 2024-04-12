@@ -101,7 +101,7 @@ function App() {
             const contractAddress = ContractArtifact.networks[5777].address;
 
             // create a Web3 instance
-            const web3 = new Web3(Web3.givenProvider);
+            const web3 = new Web3(Web3.givenProvider || window.ethereum);
 
             // Get the deployed contract as an object
             const EcommerceOrderPurchasingContract = new web3.eth.Contract(contractABI, contractAddress);
