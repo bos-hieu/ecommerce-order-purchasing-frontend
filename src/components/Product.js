@@ -25,7 +25,7 @@ function Product(
     } = product;
 
     // Get the price display by dividing the price by the Ethereum decimal
-    const priceDisplay = price / ETHEREUM_DECIMAL;
+    const priceDisplay = Number(price) / ETHEREUM_DECIMAL;
 
     // Get the image name, replace the space with an underscore and convert it to lowercase
     // Example: change "image 1" to image_1

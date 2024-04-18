@@ -90,12 +90,6 @@ function App() {
     // readSmartContract is a function that reads the smart contract
     const readSmartContract = async () => {
         if (window.ethereum) {
-            // if MetaMask found, request connection to the Wallet Accounts (log in)
-            const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
-
-            // select the last used account, store it in state variable
-            setMyAccount(accounts[0]);
-
             // select the ABI and contract address from the Artifact
             const contractABI = ContractArtifact.abi;
             const contractAddress = ContractArtifact.networks[process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_ID].address;
@@ -106,6 +100,12 @@ function App() {
             // Get the deployed contract as an object
             const EcommerceOrderPurchasingContract = new web3.eth.Contract(contractABI, contractAddress);
             setContract(EcommerceOrderPurchasingContract);
+
+            // if MetaMask found, request connection to the Wallet Accounts (log in)
+            const accounts = await web3.eth.getAccounts();
+
+            // select the last used account, store it in state variable
+            setMyAccount(accounts[0]);
 
             // get the retailer account
             const retailer = await EcommerceOrderPurchasingContract.methods.getRetailer().call();
