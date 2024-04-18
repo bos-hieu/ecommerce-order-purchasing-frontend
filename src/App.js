@@ -98,10 +98,10 @@ function App() {
 
             // select the ABI and contract address from the Artifact
             const contractABI = ContractArtifact.abi;
-            const contractAddress = ContractArtifact.networks[5777].address;
+            const contractAddress = ContractArtifact.networks[process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_ID].address;
 
             // create a Web3 instance
-            const web3 = new Web3(Web3.givenProvider);
+            const web3 = new Web3(process.env.NEXT_PUBLIC_API_URL);
 
             // Get the deployed contract as an object
             const EcommerceOrderPurchasingContract = new web3.eth.Contract(contractABI, contractAddress);
