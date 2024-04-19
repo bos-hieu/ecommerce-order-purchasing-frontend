@@ -22,10 +22,7 @@
 */
 import "./styles/App.css"
 import "./styles/Product.css"
-import {
-    useState,
-    useEffect,
-} from "react";
+import {useEffect, useState,} from "react";
 import Web3 from "web3";
 import ContractArtifact from "./contracts/EcommerceOrderPurchasing.json";
 import ListProducts from "./components/ListProducts";
@@ -54,6 +51,9 @@ function App() {
 
     // contract is a state variable that stores the smart contract object
     const [contract, setContract] = useState({});
+
+    // contract address
+    const [contractAddress, setContractAddress] = useState("");
 
     // currentOrder is a state variable that stores the current order
     const [currentOrder, setCurrentOrder] = useState(DEFAULT_CURRENT_ORDER);
@@ -90,11 +90,11 @@ function App() {
     // readSmartContract is a function that reads the smart contract
     const readSmartContract = async () => {
         if (window.ethereum) {
+            // const provider = new Web3.providers.HttpProvider(
+            //     process.env.NEXT_PUBLIC_API_URL
+            // )
             // create a Web3 instance
-            const web3 = new Web3(window.ethereum);
-
-            // set provider to Sepolia testnet
-            web3.setProvider(process.env.NEXT_PUBLIC_API_URL);
+            const web3 = new Web3(process.env.NEXT_PUBLIC_API_URL);
 
             // if MetaMask found, request connection to the Wallet Accounts (log in)
             const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
@@ -109,6 +109,7 @@ function App() {
             // Get the deployed contract as an object
             const EcommerceOrderPurchasingContract = new web3.eth.Contract(contractABI, contractAddress);
             setContract(EcommerceOrderPurchasingContract);
+            setContractAddress(contractAddress);
 
             // get the retailer account
             const retailer = await EcommerceOrderPurchasingContract.methods.getRetailer().call();
@@ -142,7 +143,9 @@ function App() {
             }
 
             // call the placeOrder function in the smart contract
-            const response = await contract.methods.placeOrder(productId).send({from: myAccount, value: amount});
+            // const response = await contract.methods.placeOrder(productId).send({from: myAccount, value: amount});
+            const response = await sendTransaction(contract.methods.placeOrder(productId).encodeABI());
+            console.log("response", response);
 
             // get the message from the response
             const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.placeOrder);
@@ -243,6 +246,22 @@ function App() {
         }
     }
 
+    const sendTransaction = async (contractMethodCallData) =>  {
+        const transactionParameters = {
+            from: myAccount, // Sender's address
+            to: contractAddress, // Contract's address
+            // value: '0x00', // Value to send (in Wei) - usually 0 for contract interactions
+            // gasPrice: 'GAS_PRICE_IN_WEI', // Gas price (in Wei)
+            // gas: 'GAS_LIMIT', // Gas limit
+            data: contractMethodCallData // Contract method call data
+        };
+
+        return await window.ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [transactionParameters]
+        });
+    }
+
     // getReturnMessage is a helper function that returns the message from the response of the smart contract
     // @param response: the response from the smart contract
     // @param eventName: the event name to get the return message
@@ -296,6 +315,8 @@ function App() {
                                 }
                             />
                         }
+
+                        <p>{retailerAccount}</p>
 
                         {/* Display the list of products */}
                         <ListProducts
