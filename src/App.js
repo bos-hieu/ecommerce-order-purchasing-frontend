@@ -31,8 +31,8 @@ import {
     APP_TITLE,
     CONNECT_TO_METAMASK_BUTTON,
     CONNECTED_TO_METAMASK_DESCRIPTION,
-    DEFAULT_CURRENT_ORDER,
-    EVENT_NAME_BY_FUNCTION,
+    DEFAULT_CURRENT_ORDER, DEFAULT_ERROR_MESSAGE,
+    EVENT_NAME_BY_FUNCTION, HEXADECIMAL_BASE,
     PLEASE_INSTALL_METAMASK_DESCRIPTION,
     SUCCESS_MESSAGE,
     SWITCH_TO_CUSTOMER_ACCOUNT_ALERT_MESSAGE,
@@ -52,7 +52,7 @@ function App() {
     // contract is a state variable that stores the smart contract object
     const [contract, setContract] = useState({});
 
-    // contract address
+    // contractAddress is a state variable that stores the contract address
     const [contractAddress, setContractAddress] = useState("");
 
     // currentOrder is a state variable that stores the current order
@@ -82,6 +82,24 @@ function App() {
         }
     }
 
+    const checkEvent = async () => {
+        contract.events.MyEvent({
+            fromBlock: 0
+        }, function(error, event){ console.log(event); })
+            .on("connected", function(subscriptionId){
+                console.log("connected", subscriptionId);
+            })
+            .on('data', function(event){
+                console.log("data",event); // same results as the optional callback above
+            })
+            .on('changed', function(event){
+                console.log("changed", event);
+            })
+            .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+                console.log(error);
+            });
+    }
+
     // isRetailerAccount is a function that checks if the current account is the retailer account
     const isRetailerAccount = (currentAccount) => {
         return currentAccount === retailerAccount;
@@ -96,7 +114,7 @@ function App() {
             // switch to the specific network
             await window.ethereum.request({
                 method: "wallet_switchEthereumChain",
-                params: [{ chainId: `0x${Number(process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_ID).toString(16)}` }],
+                params: [{ chainId: toEthereumHexStr(process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_ID) }],
             });
 
             // select the last used account, store it in state variable
@@ -106,6 +124,7 @@ function App() {
             const contractABI = ContractArtifact.abi;
             const contractAddress = ContractArtifact.networks[process.env.NEXT_PUBLIC_ETHEREUM_NETWORK_ID].address;
 
+            // create a new Web3 object
             const web3 = new Web3(process.env.NEXT_PUBLIC_API_URL);
 
             // Get the deployed contract as an object
@@ -145,12 +164,14 @@ function App() {
             }
 
             // call the placeOrder function in the smart contract
-            // const response = await contract.methods.placeOrder(productId).send({from: myAccount, value: amount});
-            const response = await sendTransaction(contract.methods.placeOrder(productId).encodeABI());
-            console.log("response", response);
+            const transactionHash = await sendTransaction(
+                contract.methods.placeOrder(productId).encodeABI(),
+                amount,
+            );
 
             // get the message from the response
-            const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.placeOrder);
+            // const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.placeOrder);
+            const message = await getReturnMessage(transactionHash, EVENT_NAME_BY_FUNCTION.placeOrder);
 
             // alert the response message to the user
             alert(message);
@@ -189,10 +210,10 @@ function App() {
             }
 
             // call the issueRefund function in the smart contract
-            const response = await contract.methods.issueRefund(currentOrder.id).send({
-                from: myAccount,
-                value: currentOrder.value
-            });
+            const response = await sendTransaction(
+                contract.methods.issueRefund(currentOrder.id).encodeABI(),
+                currentOrder.value,
+            );
 
             // get the message from the response
             const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.issueRefund);
@@ -226,7 +247,9 @@ function App() {
             }
 
             // call the cancelOrder function in the smart contract
-            const response = await contract.methods.cancelOrder(currentOrder.id).send({from: myAccount});
+            const response = await sendTransaction(
+                contract.methods.cancelOrder(currentOrder.id).encodeABI(),
+            );
 
             // get the message from the response
             const message = getReturnMessage(response, EVENT_NAME_BY_FUNCTION.cancelOrder);
@@ -248,16 +271,19 @@ function App() {
         }
     }
 
-    const sendTransaction = async (contractMethodCallData) =>  {
+    const sendTransaction = async (contractMethodCallData, value=undefined) =>  {
         const transactionParameters = {
             from: myAccount, // Sender's address
             to: contractAddress, // Contract's address
-            // value: '0x00', // Value to send (in Wei) - usually 0 for contract interactions
-            // gasPrice: 'GAS_PRICE_IN_WEI', // Gas price (in Wei)
-            // gas: 'GAS_LIMIT', // Gas limit
             data: contractMethodCallData // Contract method call data
         };
 
+        // check if the value is provided
+        // if (value) {
+        //     transactionParameters.value = toEthereumHexStr(value);
+        // }
+
+        // send the transaction
         return await window.ethereum.request({
             method: 'eth_sendTransaction',
             params: [transactionParameters]
@@ -265,11 +291,28 @@ function App() {
     }
 
     // getReturnMessage is a helper function that returns the message from the response of the smart contract
-    // @param response: the response from the smart contract
+    // @param transactionHash: the transaction hash of the transaction
     // @param eventName: the event name to get the return message
-    // @return the message from the response
-    const getReturnMessage = (response, eventName) => {
-        return response.events[eventName].returnValues.message;
+    // @return the message from the transaction
+    const getReturnMessage = async (transactionHash, eventName) => {
+        const eventResult = await getEventByTransaction(transactionHash, eventName);
+        return eventResult.returnValues.message;
+    }
+
+    // getEventByTransaction is a helper function that returns the event by the transaction hash
+    const getEventByTransaction = async (transactionHash, eventName) => {
+        const events = await contract.getPastEvents(eventName, {
+            fromBlock: 0,
+            toBlock: 'latest',
+        });
+
+        // check if the event is found
+        const eventsByTransaction = events.filter(event => event.transactionHash === transactionHash);
+        if (eventsByTransaction.length > 0) {
+            return eventsByTransaction[0];
+        }
+
+        return DEFAULT_ERROR_MESSAGE;
     }
 
     // getErrorMessage is a helper function that returns the error message
@@ -289,6 +332,11 @@ function App() {
         return `${SWITCH_TO_RETAILER_ACCOUNT_ALERT_MESSAGE_PREFIX} ${retailerAccount}`;
     }
 
+    // toEthereumHexStr is a helper function that converts a string to an Ethereum hexadecimal string
+    function toEthereumHexStr(s) {
+        return "0x" + Number(s).toString(HEXADECIMAL_BASE);
+    }
+
     useEffect(() => {
         // check if the wallet is connected
         checkWallet();
@@ -297,6 +345,13 @@ function App() {
     useEffect(() => {
         // check if the account is changed from MetaMask
         checkAccount();
+    })
+
+    useEffect(() => {
+        // check if the event is triggered
+        if (contract && contract.events) {
+            checkEvent();
+        }
     })
 
     return (
