@@ -32,6 +32,8 @@ export const ETHEREUM_SYMBOL = "ETH";
 // This constant is used to store the decimal value for Ethereum
 export const ETHEREUM_DECIMAL = 1e18;
 
+export const HEXADECIMAL_BASE = 16;
+
 // endregion 1. Constants for common values
 
 
@@ -105,5 +107,8 @@ export const SUCCESS_MESSAGE = {
     issueRefund: "You successfully refunded your payment", // The success message for the issueRefund function
     cancelOrder: "You successfully canceled your order", // The success message for the cancelOrder function
 };
+
+// This constant is used to store the default error message
+export const DEFAULT_ERROR_MESSAGE = "An error occurred. Please try again.";
 
 // endregion 5. Constants for messages
