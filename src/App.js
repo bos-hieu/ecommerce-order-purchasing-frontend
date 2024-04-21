@@ -82,24 +82,6 @@ function App() {
         }
     }
 
-    const checkEvent = async () => {
-        contract.events.MyEvent({
-            fromBlock: 0
-        }, function(error, event){ console.log(event); })
-            .on("connected", function(subscriptionId){
-                console.log("connected", subscriptionId);
-            })
-            .on('data', function(event){
-                console.log("data",event); // same results as the optional callback above
-            })
-            .on('changed', function(event){
-                console.log("changed", event);
-            })
-            .on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
-                console.log(error);
-            });
-    }
-
     // isRetailerAccount is a function that checks if the current account is the retailer account
     const isRetailerAccount = (currentAccount) => {
         return currentAccount === retailerAccount;
@@ -312,7 +294,10 @@ function App() {
             return eventsByTransaction[0];
         }
 
-        return DEFAULT_ERROR_MESSAGE;
+        // sleep for 1 second
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        return getEventByTransaction(transactionHash, eventName);
     }
 
     // getErrorMessage is a helper function that returns the error message
@@ -345,13 +330,6 @@ function App() {
     useEffect(() => {
         // check if the account is changed from MetaMask
         checkAccount();
-    })
-
-    useEffect(() => {
-        // check if the event is triggered
-        if (contract && contract.events) {
-            checkEvent();
-        }
     })
 
     return (
